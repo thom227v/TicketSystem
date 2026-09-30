@@ -1,58 +1,75 @@
 ﻿import { useEffect, useState } from 'react';
 import './App.css';
-
-interface Forecast {
-    date: string;
-    temperatureC: number;
-    temperatureF: number;
-    summary: string;
+interface Department {
+    id: number;
+    name: string;
 }
 
 function App() {
-    const [forecasts, setForecasts] = useState<Forecast[]>();
+    const [departments, setDepartments] = useState<Department[]>();
+    const [departmentName, setDepartmentName] = useState<string>('');
 
     useEffect(() => {
-        populateWeatherData();
+        getDepartments();
     }, []);
 
-    const contents = forecasts === undefined
+    const contents = departments === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         : <table className="table table-striped" aria-labelledby="tableLabel">
             <thead>
                 <tr>
-                    <th>Date</th>
-                    <th>Temp. (C)</th>
-                    <th>Temp. (F)</th>
-                    <th>Summary</th>
+                    <th>Id</th>
+                    <th>Name</th>
                 </tr>
             </thead>
             <tbody>
-                {forecasts.map(forecast =>
-                    <tr key={forecast.date}>
-                        <td>{forecast.date}</td>
-                        <td>{forecast.temperatureC}</td>
-                        <td>{forecast.temperatureF}</td>
-                        <td>{forecast.summary}</td>
+                {departments.map(department =>
+                    <tr key={department.id}>
+                        <td>{department.id}</td>
+                        <td>{department.name}</td>
                     </tr>
                 )}
             </tbody>
         </table>;
+
+
 
     return (
         <div>
             <h1 id="tableLabel">Weather forecast</h1>
             <p>This component demonstrates fetching data from the server.</p>
             {contents}
+        <div>
+            <textarea placeholder="Enter department name..." onChange={e => setDepartmentName(e.target.value)}></textarea>
+            <button onClick={addDepartment}>Add Department</button>
+        </div>
+
         </div>
     );
 
-    async function populateWeatherData() {
-        const response = await fetch('weatherforecast');
+    async function getDepartments() {
+        const response = await fetch('/ticket/GetDepartments');
         if (response.ok) {
             const data = await response.json();
-            setForecasts(data);
+            console.log("data", data);
+            setDepartments(data);
         }
-    }
+    };
+
+    async function addDepartment() {
+        if (departmentName) {
+            const response = await fetch('/ticket/CreateDepartment', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(departmentName)
+            });
+            if (response.ok) {
+                getDepartments();
+                setDepartmentName('');
+            }
+        }
+
+ }
 }
 
 export default App;
