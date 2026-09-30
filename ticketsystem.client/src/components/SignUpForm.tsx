@@ -7,13 +7,12 @@ function SignUpForm() {
     //const username = String(formData.get('usernameInput') ?? '')
     const data = Object.fromEntries(formData.entries());
 
-    const request = fetch('/auth/signup', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify(data),
-    })
+    //const response = 
+    fetch('/auth/SignUp', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+    });
   }
 
   return (

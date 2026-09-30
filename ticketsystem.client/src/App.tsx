@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import './App.css';
+import SignUpForm from './components/SignUpForm'
 interface Department {
     id: number;
     name: string;
@@ -43,7 +44,7 @@ function App() {
             <textarea placeholder="Enter department name..." onChange={e => setDepartmentName(e.target.value)}></textarea>
             <button onClick={addDepartment}>Add Department</button>
         </div>
-
+        <SignUpForm/>
         </div>
     );
 

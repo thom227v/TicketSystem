@@ -4,15 +4,14 @@ using TicketSystem.Server.Models.Auth.DTO;
 
 namespace TicketSystem.Server.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("[controller]")]
     [ApiController]
     public class AuthController : ControllerBase
     {
-        [HttpPost]
-        public Task<IActionResult> SignUp([FromBody] SignUpDTO signUpDTO)
+        [HttpPost("SignUp")]
+        public IActionResult SignUp([FromBody] SignUpDTO signUpDTO)
         {
-            string test = "";
-            throw new NotImplementedException();
+            return Ok();
         }
     }
 }
