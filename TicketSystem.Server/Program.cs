@@ -1,4 +1,7 @@
 
+using TicketSystem.Server.Context;
+using TicketSystem.Server.Services;
+
 namespace TicketSystem.Server
 {
     public class Program
@@ -7,6 +10,8 @@ namespace TicketSystem.Server
         {
             var builder = WebApplication.CreateBuilder(args);
 
+            builder.Services.AddScoped<DepartmentService>();
+            builder.Services.AddScoped<TicketDbContext>();
             // Add services to the container.
 
             builder.Services.AddControllers();
