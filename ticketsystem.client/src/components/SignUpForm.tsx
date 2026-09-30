@@ -26,6 +26,7 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
       <div>
         <label htmlFor="usernameInput">Username:</label>
         <input id="UserName" name="UserName" type="text" />
+        <input id="Password" name="Password" type="password" />
       </div>
       <button type="submit">Submit</button>
     </form>
