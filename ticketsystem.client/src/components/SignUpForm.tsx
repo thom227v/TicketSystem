@@ -1,6 +1,9 @@
 import * as React from 'react'
-function SignUpForm() {
-  function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
+type SignUpFormProps = {
+  onSuccess: () => void
+}
+function SignUpForm({ onSuccess }: SignUpFormProps) {
+  async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
     const formData = new FormData(form)
@@ -8,11 +11,14 @@ function SignUpForm() {
     const data = Object.fromEntries(formData.entries());
 
     //const response = 
-    fetch('/auth/SignUp', {
+    const response = await fetch('/auth/SignUp', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
     });
+    if (response.ok) {
+        onSuccess();
+    }
   }
 
   return (

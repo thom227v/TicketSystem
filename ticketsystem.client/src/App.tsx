@@ -14,6 +14,10 @@ function App() {
         getDepartments();
     }, []);
 
+  const handleSignUpSuccess = () => {
+    console.log("SIGN UP WAS SUCCESS")
+  }
+
     const contents = departments === undefined
         ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
         : <table className="table table-striped" aria-labelledby="tableLabel">
@@ -44,7 +48,7 @@ function App() {
             <textarea placeholder="Enter department name..." onChange={e => setDepartmentName(e.target.value)}></textarea>
             <button onClick={addDepartment}>Add Department</button>
         </div>
-        <SignUpForm/>
+        <SignUpForm onSuccess={handleSignUpSuccess} />
         </div>
     );
 
