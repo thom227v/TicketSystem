@@ -1,5 +1,6 @@
 ﻿import { useEffect, useState } from 'react';
 import './App.css';
+import SignUpForm from './components/SignUpForm.tsx'
 
 interface Forecast {
     date: string;
@@ -43,6 +44,8 @@ function App() {
             <h1 id="tableLabel">Weather forecast</h1>
             <p>This component demonstrates fetching data from the server.</p>
             {contents}
+
+            <SignUpForm/>
         </div>
     );
 
