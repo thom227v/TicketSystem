@@ -1,13 +1,16 @@
-﻿using TicketSystem.Server.Models;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Npgsql;
+using TicketSystem.Server.Models;
 
 namespace TicketSystem.Server.Context
 {
-    public class TicketDbContext
+    public class TicketDbContext : 
     {
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
-            _config = config;       
+            _config = config;
         }
 
         //public List<Department> GetAllDepartments()
