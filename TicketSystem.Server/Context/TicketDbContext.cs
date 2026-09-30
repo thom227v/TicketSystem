@@ -10,10 +10,17 @@ namespace TicketSystem.Server.Context
             _config = config;       
         }
 
-        public List<Department> GetAllDepartments()
-        {
+        //public List<Department> GetAllDepartments()
+        //{
+        //    List<Department> departments = new List<Department>();
 
-        }
+        //    var context = new TicketDbContext(_config);
+            
+
+        //    departments  = _config.GetConnectionString("DefaultConnection").
+
+
+        //}
 
     }
 }
