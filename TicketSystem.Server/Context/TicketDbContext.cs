@@ -6,7 +6,7 @@ namespace TicketSystem.Server.Context
 {
     public class TicketDbContext : DbContext
     {
-        public DbSet<Department> Departments { get; set; }
+        public DbSet<Department> department { get; set; }
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
@@ -23,7 +23,7 @@ namespace TicketSystem.Server.Context
 
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                var departmentsFromDb = context.Departments.ToList();
+                var departmentsFromDb = context.department.ToList();
                 foreach (var department in departmentsFromDb)
                 {
                     departments.Add(department);
@@ -32,5 +32,13 @@ namespace TicketSystem.Server.Context
             return departments;
         }
 
+        public void CreateDepartment(string departmentName)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                context.department.Add(new Department { name = departmentName });
+                context.SaveChanges();
+            }
+        }
     }
 }
