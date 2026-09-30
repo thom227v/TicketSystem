@@ -15,5 +15,10 @@ namespace TicketSystem.Server.Services
         {
             return _context.GetAllDepartments();
         }
+
+        public void CreateDepartment(string departmentName)
+        {
+            _context.CreateDepartment(departmentName);
+        }
     }
 }

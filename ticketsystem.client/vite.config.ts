@@ -47,6 +47,10 @@ export default defineConfig({
     },
     server: {
         proxy: {
+            '^/ticket': {
+                target,
+                secure: false
+            },
             '^/auth': {
                 target,
                 secure: false
