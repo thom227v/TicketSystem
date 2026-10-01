@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState } from 'react';
 import './App.css';
-import SignUpForm from './components/SignUpForm'
-import SignInForm from './components/SignInForm'
+import SignUpForm from './components/Auth/SignUpForm'
+import SignInForm from './components/Auth/SignInForm'
 interface Department {
     id: number;
     name: string;

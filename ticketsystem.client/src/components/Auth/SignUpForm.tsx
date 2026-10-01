@@ -1,8 +1,12 @@
-import * as React from 'react'
+import { useState } from 'react';
+
 type SignUpFormProps = {
   onSuccess: () => void
 }
+
 function SignUpForm({ onSuccess }: SignUpFormProps) {
+    const [error, setError] = useState([]);
+
   async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -18,6 +22,9 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     });
     if (response.ok) {
         onSuccess();
+    }else
+    {
+        setError(await response.json())
     }
   }
 
@@ -28,6 +35,11 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
         <input id="UserName" name="UserName" type="text" />
         <input id="Password" name="Password" type="password" />
       </div>
+      {error.map((errorMsg) => {
+        return(
+        <p>{errorMsg}</p>
+        )
+      })}
       <button type="submit">Submit</button>
     </form>
   )

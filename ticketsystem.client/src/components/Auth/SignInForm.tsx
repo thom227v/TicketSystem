@@ -1,4 +1,3 @@
-import * as React from 'react'
 type SignUpFormProps = {
   onSuccess: () => void
 }
