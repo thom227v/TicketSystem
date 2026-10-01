@@ -1,8 +1,7 @@
-import * as React from 'react'
 type SignUpFormProps = {
   onSuccess: () => void
 }
-function SignUpForm({ onSuccess }: SignUpFormProps) {
+function SignInForm({ onSuccess }: SignUpFormProps) {
   async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -11,7 +10,7 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     const data = Object.fromEntries(formData.entries());
 
     //const response = 
-    const response = await fetch('/auth/SignUp', {
+    const response = await fetch('/auth/SignIn', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -34,4 +33,4 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
 }
 
 
-export default SignUpForm;
+export default SignInForm;

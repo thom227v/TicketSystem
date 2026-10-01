@@ -7,7 +7,8 @@ namespace TicketSystem.Server.Context
     public class TicketDbContext : DbContext
     {
         public DbSet<Department> department { get; set; }
-        public DbSet<Issue> ticket { get; set; }
+        public DbSet<Ticket> ticket { get; set; }
+        public DbSet<ServiceAgreement> serviceAgreement { get; set; }
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
@@ -24,11 +25,7 @@ namespace TicketSystem.Server.Context
 
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                var departmentsFromDb = context.department.ToList();
-                foreach (var department in departmentsFromDb)
-                {
-                    departments.Add(department);
-                }
+                departments = context.department.ToList();
             }
             return departments;
         }
@@ -46,7 +43,40 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                context.ticket.Add(new Issue { title = request.Title, description = request.Description, submittedBy = request.SubmittedBy, priority = request.Priority, category = request.Category });
+                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedBy = request.SubmittedBy, priority = request.Priority, category = request.Category });
+                context.SaveChanges();
+            }
+        }
+
+        public List<Ticket> GetAllTickets()
+        {
+            List<Ticket> tickets = new List<Ticket>();
+
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                tickets = context.ticket.ToList();
+            }
+
+            return tickets;
+        }
+
+        public List<ServiceAgreement> GetAllServiceAgreements()
+        {
+            List<ServiceAgreement> serviceAgreements = new List<ServiceAgreement>();
+
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                serviceAgreements = context.serviceAgreement.ToList();
+            }
+
+            return serviceAgreements;
+        }
+
+        public void CreateServiceAgreement(ServiceAgreement serviceAgreement)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                context.serviceAgreement.Add(serviceAgreement);
                 context.SaveChanges();
             }
         }

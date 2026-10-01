@@ -15,6 +15,7 @@ namespace TicketSystem.Server
             var builder = WebApplication.CreateBuilder(args);
 
             builder.Services.AddScoped<DepartmentService>();
+            builder.Services.AddScoped<TicketService>();
             builder.Services.AddScoped<TicketDbContext>();
             builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseNpgsql(
