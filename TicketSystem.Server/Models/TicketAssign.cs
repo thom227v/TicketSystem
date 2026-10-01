@@ -6,7 +6,7 @@ namespace TicketSystem.Server.Models
     {
         public int id { get; set; }
         public string worker { get; set; }
-        public int issueid { get; set; }
+        public int ticketid { get; set; }
         public DateTime creationdatetime { get; set; }
         public string assignedby { get; set; }
     }

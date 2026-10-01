@@ -10,8 +10,8 @@ namespace TicketSystem.Server.Models
         public required string title { get; set; }
         [MaxLength(1000)]
         public required string description { get; set; }
-        public string createdBy { get; set; }
-        public string signedBy { get; set; }
+        public string createdby { get; set; }
+        public string signedby { get; set; }
 
         public Department? Department { get; set; }
     }

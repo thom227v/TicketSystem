@@ -8,7 +8,7 @@ namespace TicketSystem.Server.Context
     {
         public DbSet<Department> department { get; set; }
         public DbSet<Ticket> ticket { get; set; }
-        public DbSet<ServiceAgreement> serviceAgreement { get; set; }
+        public DbSet<ServiceAgreement> serviceagreement { get; set; }
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
@@ -65,7 +65,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                return context.serviceAgreement.ToList();
+                return context.serviceagreement.ToList();
             }
         }
 
@@ -73,7 +73,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                return query(context.serviceAgreement).ToList();
+                return query(context.serviceagreement).ToList();
             }
         }
 
@@ -81,7 +81,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                return context.serviceAgreement.FirstOrDefault(x => x.id == id);
+                return context.serviceagreement.FirstOrDefault(x => x.id == id);
             }
         }
 
@@ -89,7 +89,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                context.serviceAgreement.Add(serviceAgreement);
+                context.serviceagreement.Add(serviceAgreement);
                 context.SaveChanges();
             }
         }
