@@ -8,6 +8,7 @@ namespace TicketSystem.Server.Context
     {
         public DbSet<Department> department { get; set; }
         public DbSet<Ticket> ticket { get; set; }
+        public DbSet<ServiceAgreement> serviceAgreement { get; set; }
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
@@ -57,6 +58,27 @@ namespace TicketSystem.Server.Context
             }
 
             return tickets;
+        }
+
+        public List<ServiceAgreement> GetAllServiceAgreements()
+        {
+            List<ServiceAgreement> serviceAgreements = new List<ServiceAgreement>();
+
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                serviceAgreements = context.serviceAgreement.ToList();
+            }
+
+            return serviceAgreements;
+        }
+
+        public void CreateServiceAgreement(ServiceAgreement serviceAgreement)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                context.serviceAgreement.Add(serviceAgreement);
+                context.SaveChanges();
+            }
         }
     }
 }
