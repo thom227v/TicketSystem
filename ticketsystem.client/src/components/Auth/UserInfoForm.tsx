@@ -28,7 +28,7 @@ function UserInfoForm({ onSuccess }: SignUpFormProps) {
 
     getUserInfo();
 
-  }, );
+  }, []);
 
   return (
     <div>
