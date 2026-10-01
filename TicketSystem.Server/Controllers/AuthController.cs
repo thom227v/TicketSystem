@@ -57,5 +57,15 @@ namespace TicketSystem.Server.Controllers
                 return BadRequest("Username or password is incorrect");
             }
         }
+
+        [HttpGet("UserInfo")]
+        public async Task<IActionResult> UserInfo()
+        {
+            if (this.User.Identity != null && this.User.Identity.IsAuthenticated)
+            {
+                return Ok(new UserInfoDTO {UserName = this.User.Identity.Name ?? ""});
+            }
+            return BadRequest();
+        }
     }
 }

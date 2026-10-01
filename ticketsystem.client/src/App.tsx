@@ -2,6 +2,7 @@
 import './App.css';
 import SignUpForm from './components/Auth/SignUpForm'
 import SignInForm from './components/Auth/SignInForm'
+import UserInfoForm from './components/Auth/UserInfoForm'
 interface Department {
     id: number;
     name: string;
@@ -10,6 +11,7 @@ interface Department {
 function App() {
     const [departments, setDepartments] = useState<Department[]>();
     const [departmentName, setDepartmentName] = useState<string>('');
+    const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
     useEffect(() => {
         getDepartments();
@@ -17,6 +19,10 @@ function App() {
 
   const handleSignUpSuccess = () => {
     console.log("SIGN UP WAS SUCCESS")
+  }
+
+  const handleLoggedIn = () => {
+    setLoggedIn(true)
   }
 
     const contents = departments === undefined
@@ -45,12 +51,17 @@ function App() {
             <h1 id="tableLabel">Weather forecast</h1>
             <p>This component demonstrates fetching data from the server.</p>
             {contents}
-        <div>
-            <textarea placeholder="Enter department name..." onChange={e => setDepartmentName(e.target.value)}></textarea>
-            <button onClick={addDepartment}>Add Department</button>
-        </div>
-        <SignUpForm onSuccess={handleSignUpSuccess} />
-        <SignInForm onSuccess={handleSignUpSuccess} />
+            <div>
+                <textarea placeholder="Enter department name..." onChange={e => setDepartmentName(e.target.value)}></textarea>
+                <button onClick={addDepartment}>Add Department</button>
+            </div>
+            {loggedIn == false &&
+                <div>
+                    <SignUpForm onSuccess={handleSignUpSuccess} />
+                    <SignInForm onSuccess={handleSignUpSuccess} />
+                </div>
+            }
+            <UserInfoForm onSuccess={handleLoggedIn} />
         </div>
     );
 
