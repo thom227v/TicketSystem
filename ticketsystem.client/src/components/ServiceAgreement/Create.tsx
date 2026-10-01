@@ -19,7 +19,7 @@ function Create() {
         formData.append("department", JSON.stringify(currentDepartment));
         const data = Object.fromEntries(formData.entries());   
 
-        const response = await fetch('/ticket/CreateServiceAgreement', {
+        const response = await fetch('/serviceagreement/CreateServiceAgreement', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
@@ -29,7 +29,7 @@ function Create() {
         }};
 
         async function getDepartments() {
-        const response = await fetch('/ticket/GetDepartments');
+        const response = await fetch('/department/GetDepartments');
         if (response.ok) {
             const data = await response.json();
             setDepartments(data);

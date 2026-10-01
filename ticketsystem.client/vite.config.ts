@@ -54,6 +54,14 @@ export default defineConfig({
             '^/auth': {
                 target,
                 secure: false
+            },
+            '^/department': {
+                target,
+                secure: false
+            },
+            '^/serviceagreement': {
+                target,
+                secure: false
             }
         },
         port: parseInt(env.DEV_SERVER_PORT || '51193'),

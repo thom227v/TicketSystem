@@ -14,7 +14,7 @@ function Table() {
     const [serviceAgreements, setServiceAgreements] = useState<ServiceAgreementWithDepartmentName[]>();
 
     async function GetServiceAgreements() {
-    const response = await fetch('/ticket/GetServiceAgreements');
+    const response = await fetch('/serviceagreement/GetServiceAgreements');
     if (response.ok) {
         const data = await response.json();
         setServiceAgreements(data);

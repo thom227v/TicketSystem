@@ -10,7 +10,7 @@ function Table() {
     const [departments, setDepartments] = useState<Department[]>();
 
       async function getDepartments() {
-        const response = await fetch('/ticket/GetDepartments');
+        const response = await fetch('/department/GetDepartments');
         if (response.ok) {
             const data = await response.json();
             setDepartments(data);

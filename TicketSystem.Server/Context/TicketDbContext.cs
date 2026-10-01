@@ -48,7 +48,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedBy = request.SubmittedBy, priority = request.Priority, category = request.Category });
+                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priority = request.Priority, category = request.Category });
                 context.SaveChanges();
             }
         }
@@ -81,7 +81,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                return context.serviceAgreement.FirstOrDefault(x => x.Id == id);
+                return context.serviceAgreement.FirstOrDefault(x => x.id == id);
             }
         }
 
@@ -91,6 +91,14 @@ namespace TicketSystem.Server.Context
             {
                 context.serviceAgreement.Add(serviceAgreement);
                 context.SaveChanges();
+            }
+        }
+
+        public List<Ticket> GetTickets()
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.ticket.ToList();
             }
         }
     }

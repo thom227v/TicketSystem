@@ -15,6 +15,11 @@ namespace TicketSystem.Server.Services
         public void CreateTicket(TicketRequest request)
         {
             _context.CreateTicket(request);
-        }   
+        }
+
+        public List<Ticket> GetTickets()
+        {
+            return _context.GetTickets();
+        }
     }
 }

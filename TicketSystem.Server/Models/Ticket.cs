@@ -5,7 +5,7 @@ namespace TicketSystem.Server.Models
     public class Ticket
     {
         public int id { get; set; }
-        public string submittedBy { get; set; }
+        public string submittedby { get; set; }
         [MaxLength(255)]
         public required string title { get; set; }
         [MaxLength(1000)]

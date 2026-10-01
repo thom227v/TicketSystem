@@ -32,5 +32,12 @@ namespace TicketSystem.Server.Controllers
             _ticketService.CreateTicket(request);
             return Ok();
         }
+
+        [HttpGet("GetTickets")]
+        public IActionResult GetTickets()
+        {
+            var tickets = _ticketService.GetTickets();
+            return Ok(tickets);
+        }
     }
 }

@@ -6,7 +6,7 @@ function Create() {
         const formData = new FormData(form)
         const data = Object.fromEntries(formData.entries());   
 
-        const response = await fetch('/ticket/CreateDepartment', {
+        const response = await fetch('/department/CreateDepartment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)

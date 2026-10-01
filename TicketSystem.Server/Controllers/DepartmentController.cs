@@ -11,12 +11,10 @@ namespace TicketSystem.Server.Controllers
     public class DepartmentController : ControllerBase
     {
         private readonly DepartmentService _departmentService;
-        private readonly TicketService _ticketService;
 
-        public DepartmentController(DepartmentService departmentService, TicketService ticketService)
+        public DepartmentController(DepartmentService departmentService)
         {
             _departmentService = departmentService;
-            _ticketService = ticketService;
         }
 
         [HttpGet("GetDepartments")]

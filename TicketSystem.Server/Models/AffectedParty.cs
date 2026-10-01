@@ -2,8 +2,8 @@
 {
     public class AffectedParty
     {
-        public int Id { get; set; }
-        public string UserId { get; set; }
-        public int IssueId { get; set; }
+        public int id { get; set; }
+        public string userid { get; set; }
+        public int issueId { get; set; }
     }
 }

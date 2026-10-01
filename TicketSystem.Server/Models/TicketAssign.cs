@@ -4,10 +4,10 @@ namespace TicketSystem.Server.Models
 {
     public class TicketAssign
     {
-        public int Id { get; set; }
-        public string Worker { get; set; }
-        public int IssueId { get; set; }
-        public DateTime CreationDatetime { get; set; }
-        public string AssignedBy { get; set; }
+        public int id { get; set; }
+        public string worker { get; set; }
+        public int issueid { get; set; }
+        public DateTime creationdatetime { get; set; }
+        public string assignedby { get; set; }
     }
 }
