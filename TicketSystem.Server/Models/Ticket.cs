@@ -2,7 +2,7 @@
 
 namespace TicketSystem.Server.Models
 {
-    public class Issue
+    public class Ticket
     {
         public int id { get; set; }
         public string submittedBy { get; set; }
