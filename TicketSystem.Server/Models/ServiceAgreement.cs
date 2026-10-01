@@ -10,7 +10,7 @@ namespace TicketSystem.Server.Models
         public required string Title { get; set; }
         [MaxLength(1000)]
         public required string Description { get; set; }
-        public Guid CreatedBy { get; set; }
-        public Guid SignedBy { get; set; }
+        public string CreatedBy { get; set; }
+        public string SignedBy { get; set; }
     }
 }
