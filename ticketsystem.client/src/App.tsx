@@ -1,93 +1,26 @@
-﻿import { useEffect, useState } from 'react';
-import './App.css';
-import SignUpForm from './components/Auth/SignUpForm'
-import SignInForm from './components/Auth/SignInForm'
-import UserInfoForm from './components/Auth/UserInfoForm'
-interface Department {
-    id: number;
-    name: string;
-}
+﻿import {
+  Routes,
+  Route
+} from "react-router";
+import Home from './pages/Home';
+import Ticket from './pages/Ticket';
+import Layout from './components/Layout';
+import ServiceAgreement from "./pages/ServiceAgreement";
+import Department from "./pages/Department";
 
 function App() {
-    const [departments, setDepartments] = useState<Department[]>();
-    const [departmentName, setDepartmentName] = useState<string>('');
-    const [loggedIn, setLoggedIn] = useState<boolean>(false);
-
-    useEffect(() => {
-        getDepartments();
-    }, []);
-
-  const handleSignUpSuccess = () => {
-    console.log("SIGN UP WAS SUCCESS")
-  }
-
-  const handleLoggedIn = () => {
-    setLoggedIn(true)
-  }
-
-    const contents = departments === undefined
-        ? <p><em>Loading... Please refresh once the ASP.NET backend has started. See <a href="https://aka.ms/jspsintegrationreact">https://aka.ms/jspsintegrationreact</a> for more details.</em></p>
-        : <table className="table table-striped" aria-labelledby="tableLabel">
-            <thead>
-                <tr>
-                    <th>Id</th>
-                    <th>Name</th>
-                </tr>
-            </thead>
-            <tbody>
-                {departments.map(department =>
-                    <tr key={department.id}>
-                        <td>{department.id}</td>
-                        <td>{department.name}</td>
-                    </tr>
-                )}
-            </tbody>
-        </table>;
-
-
-
-    return (
-        <div>
-            <h1 id="tableLabel">Weather forecast</h1>
-            <p>This component demonstrates fetching data from the server.</p>
-            {contents}
-            <div>
-                <textarea placeholder="Enter department name..." onChange={e => setDepartmentName(e.target.value)}></textarea>
-                <button onClick={addDepartment}>Add Department</button>
-            </div>
-            {loggedIn == false &&
-                <div>
-                    <SignUpForm onSuccess={handleSignUpSuccess} />
-                    <SignInForm onSuccess={handleSignUpSuccess} />
-                </div>
-            }
-            <UserInfoForm onSuccess={handleLoggedIn} />
-        </div>
+    return(
+    <>
+      <Routes>
+        <Route element={<Layout />}>
+          <Route path="/" element={<Home />} />
+          <Route path="/Ticket" element={<Ticket />} />
+          <Route path="/ServiceAgreement" element={<ServiceAgreement />} />
+          <Route path="/Department" element={<Department />} />
+        </Route>
+      </Routes>
+    </>
     );
 
-    async function getDepartments() {
-        const response = await fetch('/ticket/GetDepartments');
-        if (response.ok) {
-            const data = await response.json();
-            console.log("data", data);
-            setDepartments(data);
-        }
-    };
-
-    async function addDepartment() {
-        if (departmentName) {
-            const response = await fetch('/ticket/CreateDepartment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(departmentName)
-            });
-            if (response.ok) {
-                getDepartments();
-                setDepartmentName('');
-            }
-        }
-
- }
 }
-
 export default App;
