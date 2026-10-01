@@ -7,6 +7,7 @@ namespace TicketSystem.Server.Context
     public class TicketDbContext : DbContext
     {
         public DbSet<Department> department { get; set; }
+        public DbSet<Issue> ticket { get; set; }
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
@@ -37,6 +38,15 @@ namespace TicketSystem.Server.Context
             using (TicketDbContext context = new TicketDbContext(_config))
             {
                 context.department.Add(new Department { name = departmentName });
+                context.SaveChanges();
+            }
+        }
+
+        public void CreateTicket(TicketRequest request)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                context.ticket.Add(new Issue { title = request.Title, description = request.Description, submittedBy = request.SubmittedBy, priority = request.Priority, category = request.Category });
                 context.SaveChanges();
             }
         }
