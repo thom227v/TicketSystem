@@ -21,13 +21,18 @@ namespace TicketSystem.Server.Context
 
         public List<Department> GetAllDepartments()
         {
-            List<Department> departments = new List<Department>();
-
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                departments = context.department.ToList();
+               return context.department.ToList();
             }
-            return departments;
+        }
+
+        public Department? GetDepartmentById(int id)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.department.FirstOrDefault(x => x.id == id);
+            }
         }
 
         public void CreateDepartment(string departmentName)
@@ -50,26 +55,34 @@ namespace TicketSystem.Server.Context
 
         public List<Ticket> GetAllTickets()
         {
-            List<Ticket> tickets = new List<Ticket>();
-
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                tickets = context.ticket.ToList();
+                return context.ticket.ToList();
             }
-
-            return tickets;
         }
 
         public List<ServiceAgreement> GetAllServiceAgreements()
         {
-            List<ServiceAgreement> serviceAgreements = new List<ServiceAgreement>();
-
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                serviceAgreements = context.serviceAgreement.ToList();
+                return context.serviceAgreement.ToList();
             }
+        }
 
-            return serviceAgreements;
+        public List<ServiceAgreement> GetServiceAgreements(Func<IQueryable<ServiceAgreement>, IQueryable<ServiceAgreement>> query)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return query(context.serviceAgreement).ToList();
+            }
+        }
+
+        public ServiceAgreement? GetServiceAgreementById(int id)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.serviceAgreement.FirstOrDefault(x => x.Id == id);
+            }
         }
 
         public void CreateServiceAgreement(ServiceAgreement serviceAgreement)

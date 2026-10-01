@@ -11,9 +11,19 @@ namespace TicketSystem.Server.Services
             _context = context;
         }
 
-        public List<ServiceAgreement> GetServiceAgreements()
+        public List<ServiceAgreement> GetAllServiceAgreements()
         {
             return _context.GetAllServiceAgreements();
+        }
+
+        public ServiceAgreement? GetServiceAgreementById(int id)
+        {
+            return _context.GetServiceAgreementById(id);
+        }
+
+        public List<ServiceAgreement> GetServiceAgreements(Func<IQueryable<ServiceAgreement>, IQueryable<ServiceAgreement>> query)
+        {
+            return _context.GetServiceAgreements(query);
         }
     }
 }

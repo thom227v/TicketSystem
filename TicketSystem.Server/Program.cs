@@ -16,7 +16,9 @@ namespace TicketSystem.Server
 
             builder.Services.AddScoped<DepartmentService>();
             builder.Services.AddScoped<TicketService>();
+            builder.Services.AddScoped<ServiceAgreementService>();
             builder.Services.AddScoped<TicketDbContext>();
+
             builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseNpgsql(
                 builder.Configuration.GetConnectionString("DefaultConnection")

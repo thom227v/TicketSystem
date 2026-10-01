@@ -66,7 +66,7 @@ function App() {
     );
 
     async function getDepartments() {
-        const response = await fetch('/ticket/GetDepartments');
+        const response = await fetch('/department/GetDepartments');
         if (response.ok) {
             const data = await response.json();
             console.log("data", data);
@@ -76,7 +76,7 @@ function App() {
 
     async function addDepartment() {
         if (departmentName) {
-            const response = await fetch('/ticket/CreateDepartment', {
+            const response = await fetch('/department/CreateDepartment', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(departmentName)

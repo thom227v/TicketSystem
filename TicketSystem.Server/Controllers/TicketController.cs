@@ -17,25 +17,7 @@ namespace TicketSystem.Server.Controllers
         {
             _departmentService = departmentService;
             _ticketService = ticketService;
-        }
-
-        [HttpGet("GetDepartments")]
-        public IActionResult GetDepartments()
-        {
-            var departments = _departmentService.GetDepartments();
-            return Ok(departments);
-        }
-
-        [HttpPost("CreateDepartment")]
-        public IActionResult CreateDepartment([FromBody] string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                return BadRequest("Invalid department data.");
-            }
-            _departmentService.CreateDepartment(name);
-            return Ok();
-        }
+        }    
 
         [HttpPost("CreateTicket")]
         public IActionResult CreateTicket([FromBody] TicketRequest request)

@@ -12,5 +12,7 @@ namespace TicketSystem.Server.Models
         public required string Description { get; set; }
         public string CreatedBy { get; set; }
         public string SignedBy { get; set; }
+
+        public Department? Department { get; set; }
     }
 }

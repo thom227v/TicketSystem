@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TicketSystem.Server.Models;
 using TicketSystem.Server.Services;
 
@@ -21,7 +22,10 @@ namespace TicketSystem.Server.Controllers
         [HttpGet("GetServiceAgreements")]
         public async Task<IActionResult> GetServiceAgreements()
         {
-            List<ServiceAgreement> serviceAgreements = _serviceAgreementService.GetServiceAgreements();
+            List<ServiceAgreement> serviceAgreements = _serviceAgreementService.GetServiceAgreements(
+                q =>
+                q.Include(x => x.Department)
+            );
             return Ok(serviceAgreements);
         }
     }
