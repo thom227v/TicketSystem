@@ -9,7 +9,7 @@ namespace TicketSystem.Server.Controllers
     [AllowAnonymous]
     [Route("[controller]")]
     [ApiController]
-    public class AuthController(UserManager<IdentityUser> userManager) : ControllerBase
+    public class AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) : ControllerBase
     {
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpDTO signUpDTO)
@@ -36,6 +36,26 @@ namespace TicketSystem.Server.Controllers
             .ToList();
 
             return BadRequest(safeErrorDescriptions);
+        }
+
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn([FromBody] SignUpDTO signInDTO)
+        {
+            IdentityUser? user = await userManager.FindByNameAsync(signInDTO.UserName);
+            if (user == null)
+            {
+                return BadRequest("Username or password is incorrect");
+            }
+
+            Microsoft.AspNetCore.Identity.SignInResult result = await signInManager.PasswordSignInAsync(user, signInDTO.Password, true, false);
+            if (result.Succeeded)
+            {
+                return Ok();
+            }
+            else
+            {
+                return BadRequest("Username or password is incorrect");
+            }
         }
     }
 }

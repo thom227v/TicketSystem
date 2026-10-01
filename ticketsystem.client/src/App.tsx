@@ -1,6 +1,7 @@
 ﻿import { useEffect, useState } from 'react';
 import './App.css';
 import SignUpForm from './components/SignUpForm'
+import SignInForm from './components/SignInForm'
 interface Department {
     id: number;
     name: string;
@@ -49,6 +50,7 @@ function App() {
             <button onClick={addDepartment}>Add Department</button>
         </div>
         <SignUpForm onSuccess={handleSignUpSuccess} />
+        <SignInForm onSuccess={handleSignUpSuccess} />
         </div>
     );
 
