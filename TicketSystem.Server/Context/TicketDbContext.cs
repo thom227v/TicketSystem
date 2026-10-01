@@ -47,7 +47,7 @@ namespace TicketSystem.Server.Context
             }
         }
 
-        public List<Ticket> GetAllIssues()
+        public List<Ticket> GetAllTickets()
         {
             List<Ticket> tickets = new List<Ticket>();
 
