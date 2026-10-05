@@ -29,18 +29,21 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="usernameInput">Username:</label>
-        <input id="UserName" name="UserName" type="text" />
-        <input id="Password" name="Password" type="password" />
+    <form className="w-50" onSubmit={handleSubmit}>
+      <div className="form-group">
+        <label>Username</label>
+        <input className="form-control"  name="UserName" type="text" />
+      </div>
+      <div className="form-group">
+        <label>Username</label>
+        <input className="form-control" name="Password" type="password" />
       </div>
       {error.map((errorMsg) => {
         return(
         <p>{errorMsg}</p>
         )
       })}
-      <button type="submit">Submit</button>
+      <button className="btn btn-primary" type="submit">Submit</button>
     </form>
   )
 }
