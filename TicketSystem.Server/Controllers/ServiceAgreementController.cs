@@ -24,7 +24,7 @@ namespace TicketSystem.Server.Controllers
         {
             List<ServiceAgreement> serviceAgreements = _serviceAgreementService.GetServiceAgreements(
                 q =>
-                q.Include(x => x.Department)
+                q.Include(x => x.department)
             );
             return Ok(serviceAgreements);
         }
@@ -43,7 +43,7 @@ namespace TicketSystem.Server.Controllers
             {
                 title = serviceAgreementResponse.Title,
                 description = serviceAgreementResponse.Description,
-                departmentid = serviceAgreementResponse.Department.id,
+                departmentid = serviceAgreementResponse.department.id,
                 createdby = currentUsername,
                 signedby = currentUsername
             };

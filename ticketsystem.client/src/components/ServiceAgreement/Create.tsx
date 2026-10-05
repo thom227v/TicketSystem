@@ -15,9 +15,10 @@ function Create() {
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const form = event.currentTarget
-        let formData = new FormData(form)
-        formData.append("department", JSON.stringify(currentDepartment));
+        const formData = new FormData(form)
         const data = Object.fromEntries(formData.entries());   
+        data.department = currentDepartment;
+
 
         const response = await fetch('/serviceagreement/CreateServiceAgreement', {
         method: 'POST',

@@ -13,7 +13,6 @@ namespace TicketSystem.Server.Models
         public required string description { get; set; }
         public string? createdby { get; set; }
         public string? signedby { get; set; }
-        [NotMapped]
-        public Department? Department { get; set; }
+        public Department? department { get; set; }
     }
 }
