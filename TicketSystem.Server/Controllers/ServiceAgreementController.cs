@@ -23,8 +23,8 @@ namespace TicketSystem.Server.Controllers
         public async Task<IActionResult> GetServiceAgreements()
         {
             List<ServiceAgreement> serviceAgreements = _serviceAgreementService.GetServiceAgreements(
-                q => q
-                //q.Include(x => x.Department)
+                q =>
+                q.Include(x => x.Department)
             );
             return Ok(serviceAgreements);
         }
@@ -43,8 +43,9 @@ namespace TicketSystem.Server.Controllers
             {
                 title = serviceAgreementResponse.Title,
                 description = serviceAgreementResponse.Description,
-                departmentid = serviceAgreementResponse.DepartmentId,
-                createdby = currentUsername
+                departmentid = serviceAgreementResponse.Department.id,
+                createdby = currentUsername,
+                signedby = currentUsername
             };
 
             _serviceAgreementService.CreateServiceAgreement(serviceAgreement);
