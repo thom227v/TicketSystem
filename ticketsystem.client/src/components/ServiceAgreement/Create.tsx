@@ -57,8 +57,6 @@ function Create() {
                 </div>
                 <input name="Title" placeholder="Enter service agreement title"></input>
                 <input name="Description" placeholder="Enter service agreement description"></input>
-                <input name="Priority" placeholder="Enter service agreement priority"></input>
-                <input name="Category" placeholder="Enter service agreement category"></input>
                 <Dropdown
                     aria-label="Department"
                     options={options}

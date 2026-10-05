@@ -23,10 +23,32 @@ namespace TicketSystem.Server.Controllers
         public async Task<IActionResult> GetServiceAgreements()
         {
             List<ServiceAgreement> serviceAgreements = _serviceAgreementService.GetServiceAgreements(
-                q =>
-                q.Include(x => x.Department)
+                q => q
+                //q.Include(x => x.Department)
             );
             return Ok(serviceAgreements);
+        }
+
+        [HttpPost("CreateServiceAgreement")]
+        public async Task<IActionResult> CreateServiceAgreement([FromBody] ServiceAgreementCreationResponse serviceAgreementResponse)
+        {
+            System.Security.Claims.ClaimsPrincipal currentUser = this.User;
+            string currentUsername = currentUser.Identity?.Name ?? "";
+            if (string.IsNullOrWhiteSpace(currentUsername))
+            {
+                return BadRequest();
+            }
+
+            ServiceAgreement serviceAgreement = new ServiceAgreement
+            {
+                title = serviceAgreementResponse.Title,
+                description = serviceAgreementResponse.Description,
+                departmentid = serviceAgreementResponse.DepartmentId,
+                createdby = currentUsername
+            };
+
+            _serviceAgreementService.CreateServiceAgreement(serviceAgreement);
+            return Ok();
         }
     }
 }

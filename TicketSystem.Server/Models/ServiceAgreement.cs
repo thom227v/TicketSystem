@@ -13,6 +13,6 @@ namespace TicketSystem.Server.Models
         public string createdby { get; set; }
         public string signedby { get; set; }
 
-        public Department? Department { get; set; }
+        //public Department? Department { get; set; }
     }
 }
