@@ -29,7 +29,7 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
   }
 
   return (
-    <form className="w-50" onSubmit={handleSubmit}>
+    <form className="w-100" onSubmit={handleSubmit}>
       <div className="form-group">
         <label>Username</label>
         <input className="form-control"  name="UserName" type="text" />
