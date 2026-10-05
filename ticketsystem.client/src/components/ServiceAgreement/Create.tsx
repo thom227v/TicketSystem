@@ -55,10 +55,10 @@ function Create() {
                 <div>
                     <p>Create SLA</p>
                 </div>
-                <input name="titleId" placeholder="Enter service agreement title"></input>
-                <input name="descriptionId" placeholder="Enter service agreement description"></input>
-                <input name="priorityId" placeholder="Enter service agreement priority"></input>
-                <input name="categoryId" placeholder="Enter service agreement category"></input>
+                <input name="Title" placeholder="Enter service agreement title"></input>
+                <input name="Description" placeholder="Enter service agreement description"></input>
+                <input name="Priority" placeholder="Enter service agreement priority"></input>
+                <input name="Category" placeholder="Enter service agreement category"></input>
                 <Dropdown
                     aria-label="Department"
                     options={options}

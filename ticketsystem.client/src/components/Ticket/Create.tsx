@@ -21,10 +21,10 @@ function Create() {
                 <div>
                     <p>Create Ticket</p>
                 </div>
-                <input name="titleId" placeholder="Enter ticket title"></input>
-                <input name="descriptionId" placeholder="Enter ticket description"></input>
-                <input name="priorityId" placeholder="Enter ticket priority"></input>
-                <input name="categoryId" placeholder="Enter ticket category"></input>
+                <input name="Title" placeholder="Enter ticket title"></input>
+                <input name="Description" placeholder="Enter ticket description"></input>
+                <input name="Priority" placeholder="Enter ticket priority"></input>
+                <input name="Category" placeholder="Enter ticket category"></input>
                 <button type="submit">Submit</button>
             </form>
         </>
