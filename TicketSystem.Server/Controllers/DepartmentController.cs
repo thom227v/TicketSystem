@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using TicketSystem.Server.Models;
 using TicketSystem.Server.Services;
 
 namespace TicketSystem.Server.Controllers
@@ -25,13 +26,13 @@ namespace TicketSystem.Server.Controllers
         }
 
         [HttpPost("CreateDepartment")]
-        public async Task<IActionResult> CreateDepartment([FromBody] string name)
+        public async Task<IActionResult> CreateDepartment([FromBody] DepartmentCreationResponse createDepartment)
         {
-            if (string.IsNullOrWhiteSpace(name))
+            if (string.IsNullOrWhiteSpace(createDepartment.name))
             {
                 return BadRequest("Invalid department data.");
             }
-            _departmentService.CreateDepartment(name);
+            _departmentService.CreateDepartment(createDepartment.name);
             return Ok();
         }
     }

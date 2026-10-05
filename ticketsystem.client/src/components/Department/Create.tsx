@@ -11,6 +11,7 @@ function Create() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
         });
+
         if (response.ok) {
             alert("Department created successfully");
         }};
@@ -21,7 +22,7 @@ function Create() {
                 <div>
                     <p>Create Department</p>
                 </div>
-                <input name="nameId" placeholder="Enter department name"></input>
+                <input name="name" placeholder="Enter department name"></input>
                 <button type="submit">Submit</button>
             </form>
         </>
