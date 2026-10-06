@@ -4,6 +4,6 @@ namespace TicketSystem.Server.Models.Auth
 {
     public class ApplicationUser : IdentityUser
     {
-        public Department? department {  get; set; }
+        public int DepartmentId {  get; set; }
     }
 }

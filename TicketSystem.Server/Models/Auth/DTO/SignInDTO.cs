@@ -1,9 +1,8 @@
 ﻿namespace TicketSystem.Server.Models.Auth.DTO
 {
-    public class SignUpDTO
+    public class SignInDTO
     {
         public required string UserName { get; set; }
         public required string Password { get; set; }
-        public required int DepartmentId { get; set; }
     }
 }

@@ -1,16 +1,31 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { toast } from "sonner";
 import Dropdown from 'react-dropdown'
+import type { Option } from 'react-dropdown';
+import Department from '../../pages/Department';
+
+interface Department {
+    id: number;
+    name: string;
+}
 
 type SignUpFormProps = {
   onSuccess: () => void
 }
 
 function SignUpForm({ onSuccess }: SignUpFormProps) {
-    const [error, setError] = useState([]);
+    const [error, setError] = useState<string[]>([]);
+    const [departments, setDepartments] = useState<Department[]>();
+    const [department, setDepartment] = useState<Option | null>(null);
 
   async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
+
+    if (department === null) {
+        setError(["Please select a department"]);
+        return;
+    }
+
     const form = event.currentTarget
     const formData = new FormData(form)
     //const username = String(formData.get('usernameInput') ?? '')
@@ -24,15 +39,25 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     });
     if (response.ok) {
         onSuccess();
-        toast.success("Du er nu signed up");
+        toast.success("You are now signed up");
     }else
     {
         setError(await response.json())
     }
   }
 
+    useEffect(() => {
+        async function getDepartments() {
+            const response = await fetch('/department/GetDepartments');
+            if (response.ok) {
+                const data = await response.json();
+                setDepartments(data);
+        }};
+        getDepartments();
+    }, []);
+
   return (
-    <form className="w-25 mx-auto d-flex flex-column" onSubmit={handleSubmit}>
+    <form className="w-25 mx-auto d-flex flex-column gap-2" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
           <input className="form-control"  name="UserName" type="text" required/>
@@ -41,31 +66,30 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
           <label>Username</label>
           <input className="form-control" name="Password" type="password" required/>
         </div>
-        {error.map((errorMsg) => {
-          return(
-          <p>{errorMsg}</p>
-          )
-        })}
-
-        <div className="form-group">
-          <label>Select department</label>
-          <Dropdown
+        <Dropdown
+            name="DepartmentId"
             controlClassName="btn btn-outline-primary dropdown-toggle"
             menuClassName="list-group"
             optionClassName="list-group-item list-group-item-action"
             aria-label="Number"
+                value={department}
+                onChange={setDepartment}
             options={
-                [
-                    {value: '1', label: 'One'},
-                    {value: '2', label: 'Two'}
-                ]
+                departments === undefined ? [] : departments.map((department) => ({
+                    value: department.id,
+                    label: department.name,
+                 }))
             }
             
-            placeholder="Select an option"
+            placeholder="Select a department"
         />
-        </div>
         <button className="w-100 align-self-center mt-2 btn btn-primary" type="submit">Sign up</button>
-    </form>
+        {Array.isArray(error) && error.map((errorMsg) => {
+          return(
+          <p className="text-danger">{errorMsg}</p>
+          )
+        })}
+        </form>
   )
 }
 

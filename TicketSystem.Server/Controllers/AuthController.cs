@@ -2,22 +2,31 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TicketSystem.Server.Models;
 using TicketSystem.Server.Models.Auth;
 using TicketSystem.Server.Models.Auth.DTO;
+using TicketSystem.Server.Services;
 
 namespace TicketSystem.Server.Controllers
 {
     [AllowAnonymous]
     [Route("[controller]")]
     [ApiController]
-    public class AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : ControllerBase
+    public class AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager, DepartmentService departmentService) : ControllerBase
     {
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpDTO signUpDTO)
         {
+            Department? department = departmentService.GetDepartmentById(signUpDTO.DepartmentId);
+            if (department == null)
+            {
+                return BadRequest("Selected department doesnt exist");
+            }
+
             ApplicationUser newIdentityUser = new ApplicationUser
             {
-                UserName = signUpDTO.UserName
+                UserName = signUpDTO.UserName,
+                DepartmentId = department.id
             };
             IdentityResult result = await userManager.CreateAsync(newIdentityUser, signUpDTO.Password);
             if (result.Succeeded)
@@ -40,7 +49,7 @@ namespace TicketSystem.Server.Controllers
         }
 
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn([FromBody] SignUpDTO signInDTO)
+        public async Task<IActionResult> SignIn([FromBody] SignInDTO signInDTO)
         {
             ApplicationUser? user = await userManager.FindByNameAsync(signInDTO.UserName);
             if (user == null)
