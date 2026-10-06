@@ -19,7 +19,7 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
     });
     if (response.ok) {
         onSuccess();
-        toast.success("Du er nu signed in");
+        toast.success("You are now signed in");
     }
   }
 
@@ -33,7 +33,7 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
              <label>Password</label>
              <input className="form-control" name="Password" type="password" required/>
         </div>
-        <button className="w-50 align-self-center mt-2 btn btn-primary" type="submit">Submit</button>
+        <button className="w-100 align-self-center mt-2 btn btn-primary" type="submit">Sign in</button>
     </form>
   )
 }

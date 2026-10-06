@@ -9,9 +9,17 @@ export default function HomePage() {
   
   return (
     <main>
-      <h1 className="text-center">Welcome</h1>
-      <SignUpForm onSuccess={handleSignUpSuccess} />
-      <SignInForm onSuccess={handleSignUpSuccess} />
+        <div className="text-center"> 
+            <h2>Account registration</h2>
+            <p>Please fill out the required fields.</p>
+        </div>
+        <SignUpForm onSuccess={handleSignUpSuccess} />
+
+        <div className="text-center"> 
+            <h2>You are not signed in</h2>
+            <p>Please sign into your account</p>
+        </div>
+        <SignInForm onSuccess={handleSignUpSuccess} />
     </main>
   );
 }

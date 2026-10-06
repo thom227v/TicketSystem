@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { toast } from "sonner";
+import Dropdown from 'react-dropdown'
 
 type SignUpFormProps = {
   onSuccess: () => void
@@ -45,7 +46,25 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
           <p>{errorMsg}</p>
           )
         })}
-        <button className="w-50 align-self-center mt-2 btn btn-primary" type="submit">Submit</button>
+
+        <div className="form-group">
+          <label>Select department</label>
+          <Dropdown
+            controlClassName="btn btn-outline-primary dropdown-toggle"
+            menuClassName="list-group"
+            optionClassName="list-group-item list-group-item-action"
+            aria-label="Number"
+            options={
+                [
+                    {value: '1', label: 'One'},
+                    {value: '2', label: 'Two'}
+                ]
+            }
+            
+            placeholder="Select an option"
+        />
+        </div>
+        <button className="w-100 align-self-center mt-2 btn btn-primary" type="submit">Sign up</button>
     </form>
   )
 }
