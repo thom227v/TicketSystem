@@ -3,6 +3,7 @@
   Route
 } from "react-router";
 import Home from './pages/Home';
+import Login from './pages/Login';
 import Ticket from './pages/Ticket';
 import Layout from './components/Layout';
 import ServiceAgreement from "./pages/ServiceAgreement";
@@ -20,6 +21,7 @@ function App() {
           <Route path="/Ticket" element={<Ticket />} />
           <Route path="/ServiceAgreement" element={<ServiceAgreement />} />
           <Route path="/Department" element={<Department />} />
+          <Route path="/Login" element={<Login />} />
         </Route>
       </Routes>
     </>
