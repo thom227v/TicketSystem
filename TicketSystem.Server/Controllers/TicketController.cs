@@ -28,6 +28,13 @@ namespace TicketSystem.Server.Controllers
             return Ok();
         }
 
+        [HttpPost("UpdateTicket")]
+        public IActionResult UpdateTicket([FromBody] TicketRequest request)
+        {
+            _ticketService.UpdateTicket(request);
+            return Ok();
+        }
+
         [HttpGet("GetTickets")]
         public IActionResult GetTickets()
         {

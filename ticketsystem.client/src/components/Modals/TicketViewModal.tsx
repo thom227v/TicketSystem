@@ -21,17 +21,19 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
     const [userResponse, setUserResponse] = useState<string>("");
     const [selectedUsernames, setSelectedUsernames] = useState<string[]>(ticket.affectedusers);
     
-      async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
+    async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const form = event.currentTarget
         const formData = new FormData(form)
         const data = {
             ...Object.fromEntries(formData.entries()),
-            Username: selectedUsernames[0] ?? "",
             Usernames: selectedUsernames
         };
         
-        const response = await fetch('/ticket/CreateTicket', {
+        console.log(selectedUsernames)
+        console.log(event.currentTarget)
+
+        const response = await fetch('/ticket/UpdateTicket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(data)
@@ -158,7 +160,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                     {username.length > 0 && userResponse.length > 0 && !selectedUsernames.includes(userResponse) &&
                         <button onClick={handleChooseUsername} type="button">{userResponse}</button>}
                 </div>
-                <button className="mt-1 btn btn-primary" type="submit">Create Ticket</button>
+                <button className="mt-1 btn btn-primary" type="submit">Update ticket</button>
            </form>
         </Modal.Body>
 

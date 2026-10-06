@@ -121,13 +121,9 @@ namespace TicketSystem.Server.Context
                     throw new Exception("affected party could not be created as ticket was not found");
                 }
 
-                IEnumerable<string> usernames = request.Usernames.Any()
-                    ? request.Usernames
-                    : string.IsNullOrWhiteSpace(request.Username)
-                        ? Enumerable.Empty<string>()
-                        : new[] { request.Username };
-
-                context.affectedparty.AddRange(usernames
+                context.affectedparty.RemoveRange(context.affectedparty.Where(x => x.ticketid == parsedId));
+                
+                context.affectedparty.AddRange(request.Usernames
                     .Where(username => !string.IsNullOrWhiteSpace(username))
                     .Distinct()
                     .Select(username => new AffectedParty { ticketid = parsedId, userid = username }));
@@ -149,6 +145,23 @@ namespace TicketSystem.Server.Context
             {
                 return context.timelog.Where(x => x.ticketassignid == ticketAssignId).ToList();
             }
+        }
+
+        public void UpdateTicket(TicketRequest request)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                Ticket ticket = context.ticket.FirstOrDefault(t => t.title == request.Title && t.description == request.Description);
+                if (ticket == null)
+                {
+                    throw new Exception("Ticket not found for update.");
+                }
+             
+                ticket.priority = request.Priority;
+                ticket.category = request.Category;
+                context.SaveChanges();
+            }
+            CreateAffectedUser(request);
         }
     }
 }

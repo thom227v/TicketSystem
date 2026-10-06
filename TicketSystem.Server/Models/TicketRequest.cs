@@ -7,7 +7,6 @@
         public int Priority { get; set; } = 0;
         public int Category { get; set; } = 0;
         public string SubmittedBy { get; set; } = string.Empty;
-        public string Username { get; set; } = string.Empty;
         public List<string> Usernames { get; set; } = new();
     }
 }

@@ -46,5 +46,10 @@ namespace TicketSystem.Server.Services
 
             return ticketTableDTOs;
         }
+
+        public void UpdateTicket(TicketRequest request)
+        {
+            _context.UpdateTicket(request);
+        }
     }
 }
