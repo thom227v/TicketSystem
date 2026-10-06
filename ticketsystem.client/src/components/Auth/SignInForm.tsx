@@ -24,13 +24,16 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <div>
-        <label htmlFor="usernameInput">Username:</label>
-        <input id="UserName" name="UserName" type="text" required/>
-        <input id="Password" name="Password" type="password" required/>
-      </div>
-      <button type="submit">Submit</button>
+<form className="w-25 mx-auto d-flex flex-column" onSubmit={handleSubmit}>
+        <div className="form-group">
+            <label >Username</label>
+            <input className="form-control"  name="UserName" type="text" required/>
+        </div>
+        <div className="form-group">
+             <label>Password</label>
+             <input className="form-control" name="Password" type="password" required/>
+        </div>
+        <button className="w-50 align-self-center mt-2 btn btn-primary" type="submit">Submit</button>
     </form>
   )
 }

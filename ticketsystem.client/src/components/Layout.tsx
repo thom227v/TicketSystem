@@ -6,8 +6,10 @@ export default function Layout() {
     <>
       <Navbar />
 
-      <main>
-        <Outlet />
+      <main className="d-flex justify-content-center">
+        <div className="p-3 flex-fill">
+            <Outlet />
+        </div>
       </main>
     </>
   );

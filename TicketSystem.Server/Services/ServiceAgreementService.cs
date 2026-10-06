@@ -25,5 +25,10 @@ namespace TicketSystem.Server.Services
         {
             return _context.GetServiceAgreements(query);
         }
+
+        public void CreateServiceAgreement(ServiceAgreement serviceAgreement)
+        {
+            _context.CreateServiceAgreement(serviceAgreement);
+        }
     }
 }

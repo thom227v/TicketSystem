@@ -27,7 +27,7 @@ function Table() {
 
 return (
     <>
-        {tickets === undefined ? <p>currently no tickets</p> : <table className="table table-striped" aria-labelledby="tableLabel">
+        {tickets === undefined ? <p>currently no tickets</p> : <table className="mt-4 w-75 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
             <thead>
                 <tr>
                     <th>Id</th>
@@ -52,7 +52,7 @@ return (
                     </tr>
                 )}
             </tbody>
-        </table>};
+        </table>}
     </>
 
 );

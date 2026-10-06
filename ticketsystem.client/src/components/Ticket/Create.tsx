@@ -53,16 +53,14 @@ function Create() {
 
     return (
         <>
-            <form onSubmit={handleTicketSubmit}>
-                <div>
-                    <p>Create Ticket</p>
-                </div>
-                <input name="Title" placeholder="Enter ticket title" required></input>
-                <input name="Description" placeholder="Enter ticket description" required></input>
-                <input name="Priority" placeholder="Enter ticket priority" required></input>
-                <input name="Category" placeholder="Enter ticket category" required></input>
+            <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
+                <label>Fill out ticket blanket</label>
+                <input className="form-control" name="Title" placeholder="Enter ticket title" required></input>
+                <input className="form-control" name="Description" placeholder="Enter ticket description" required></input>
+                <input className="form-control" name="Priority" placeholder="Enter ticket priority" required></input>
+                <input className="form-control" name="Category" placeholder="Enter ticket category" required></input>
                 {usernamePartial}
-                <button type="submit">Submit</button>
+                <button className="mt-1 btn btn-primary" type="submit">Create Ticket</button>
             </form>
         </>
     );

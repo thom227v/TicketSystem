@@ -15,11 +15,11 @@ function Create() {
     const [currentDepartment, setCurrentDepartment] = useState<Department>();
 
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
-            event.preventDefault();
-            const form = event.currentTarget
-            let formData = new FormData(form)
-            formData.append("department", JSON.stringify(currentDepartment));
-            const data = Object.fromEntries(formData.entries());   
+        event.preventDefault();
+        const form = event.currentTarget
+        const formData = new FormData(form)
+        const data = Object.fromEntries(formData.entries());   
+        data.department = currentDepartment;
 
             const response = await fetch('/serviceagreement/CreateServiceAgreement', {
             method: 'POST',
@@ -53,15 +53,11 @@ function Create() {
 
     return (
         <>
-            <form onSubmit={handleTicketSubmit}>
-                <div>
-                    <p>Create SLA</p>
-                </div>
-                <input name="Title" placeholder="Enter service agreement title" required></input>
-                <input name="Description" placeholder="Enter service agreement description" required></input>
-                <input name="Priority" placeholder="Enter service agreement priority" required></input>
-                <input name="Category" placeholder="Enter service agreement category" required></input>
-                <Dropdown
+           <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
+                <label>Create SLA</label>
+                <input className="form-control" name="Title" placeholder="Enter service agreement title" required></input>
+                <input className="form-control" name="Description" placeholder="Enter service agreement description" required></input>
+                <Dropdown className="btn btn-secondary dropdown-toggle"
                     aria-label="Department"
                     options={options}
                     onChange={(option) => {
@@ -75,7 +71,7 @@ function Create() {
                     }}      
                     placeholder="Select a department"
                     />
-                <button type="submit">Submit</button>
+                <button className="mt-1 btn btn-primary" type="submit">Submit</button>
             </form>
         </>
     );
