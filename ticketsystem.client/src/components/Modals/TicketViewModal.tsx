@@ -30,9 +30,6 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
             Usernames: selectedUsernames
         };
         
-        console.log(selectedUsernames)
-        console.log(event.currentTarget)
-
         const response = await fetch('/ticket/UpdateTicket', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
