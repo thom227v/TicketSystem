@@ -1,9 +1,6 @@
 import { toast } from "sonner";
 
-type SignUpFormProps = {
-  onSuccess: () => void
-}
-function SignInForm({ onSuccess }: SignUpFormProps) {
+function SignInForm() {
   async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -18,7 +15,6 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
         body: JSON.stringify(data)
     });
     if (response.ok) {
-        onSuccess();
         toast.success("You are now signed in");
     }
   }

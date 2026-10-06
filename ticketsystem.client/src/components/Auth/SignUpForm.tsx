@@ -9,11 +9,7 @@ interface Department {
     name: string;
 }
 
-type SignUpFormProps = {
-  onSuccess: () => void
-}
-
-function SignUpForm({ onSuccess }: SignUpFormProps) {
+function SignUpForm() {
     const [error, setError] = useState<string[]>([]);
     const [departments, setDepartments] = useState<Department[]>();
     const [department, setDepartment] = useState<Option | null>(null);
@@ -38,7 +34,6 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
         body: JSON.stringify(data)
     });
     if (response.ok) {
-        onSuccess();
         toast.success("You are now signed up");
     }else
     {
