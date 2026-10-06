@@ -1,5 +1,6 @@
 ﻿using TicketSystem.Server.Context;
 using TicketSystem.Server.Models;
+using TicketSystem.Server.Models.DTOs;
 
 namespace TicketSystem.Server.Services
 {
@@ -19,7 +20,31 @@ namespace TicketSystem.Server.Services
 
         public List<Ticket> GetTickets()
         {
-            return _context.GetTickets();
+            List<Ticket> tickets = _context.GetTickets();
+
+            return tickets;
+        }
+        
+        public List<TicketTableDTO> GetTicketsForTable()
+        {
+            List<Ticket> tickets = _context.GetTickets();
+            List<TicketTableDTO> ticketTableDTOs = tickets.Select(ticket => new TicketTableDTO
+            {
+                id = ticket.id,
+                submittedby = ticket.submittedby,
+                title = ticket.title,
+                description = ticket.description,
+                priority = ticket.priority,
+                category = ticket.category
+            }).ToList();
+
+            foreach (TicketTableDTO ticketTableDTO in ticketTableDTOs)
+            {
+                string affecteduser = _context.GetAffectedPartyNameByTicketId(ticketTableDTO.id);
+                ticketTableDTO.affecteduser = affecteduser;
+            }
+
+            return ticketTableDTOs;
         }
     }
 }

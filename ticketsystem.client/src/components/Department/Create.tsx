@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 function Create() {
 
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
@@ -13,7 +15,7 @@ function Create() {
         });
 
         if (response.ok) {
-            alert("Department created successfully");
+            toast.success("Department created successfully");
         }};
 
     return (
@@ -22,7 +24,7 @@ function Create() {
                 <div>
                     <p>Create Department</p>
                 </div>
-                <input name="name" placeholder="Enter department name"></input>
+                <input name="name" placeholder="Enter department name" required></input>
                 <button type="submit">Submit</button>
             </form>
         </>

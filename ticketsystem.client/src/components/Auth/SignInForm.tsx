@@ -1,3 +1,5 @@
+import { toast } from "sonner";
+
 type SignUpFormProps = {
   onSuccess: () => void
 }
@@ -17,6 +19,7 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
     });
     if (response.ok) {
         onSuccess();
+        toast.success("Du er nu signed in");
     }
   }
 
@@ -24,8 +27,8 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="usernameInput">Username:</label>
-        <input id="UserName" name="UserName" type="text" />
-        <input id="Password" name="Password" type="password" />
+        <input id="UserName" name="UserName" type="text" required/>
+        <input id="Password" name="Password" type="password" required/>
       </div>
       <button type="submit">Submit</button>
     </form>

@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import Dropdown, { type Option } from 'react-dropdown'
+import Dropdown from 'react-dropdown'
+import { toast } from "sonner";
+
 
 interface Department {
     id: number;
@@ -13,20 +15,20 @@ function Create() {
     const [currentDepartment, setCurrentDepartment] = useState<Department>();
 
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
-        event.preventDefault();
-        const form = event.currentTarget
-        let formData = new FormData(form)
-        formData.append("department", JSON.stringify(currentDepartment));
-        const data = Object.fromEntries(formData.entries());   
+            event.preventDefault();
+            const form = event.currentTarget
+            let formData = new FormData(form)
+            formData.append("department", JSON.stringify(currentDepartment));
+            const data = Object.fromEntries(formData.entries());   
 
-        const response = await fetch('/serviceagreement/CreateServiceAgreement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-        });
-        if (response.ok) {
-            alert("Service agreement created successfully");
-        }};
+            const response = await fetch('/serviceagreement/CreateServiceAgreement', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                toast.success("Service agreement created successfully");
+            }};
 
         async function getDepartments() {
         const response = await fetch('/department/GetDepartments');
@@ -55,10 +57,10 @@ function Create() {
                 <div>
                     <p>Create SLA</p>
                 </div>
-                <input name="Title" placeholder="Enter service agreement title"></input>
-                <input name="Description" placeholder="Enter service agreement description"></input>
-                <input name="Priority" placeholder="Enter service agreement priority"></input>
-                <input name="Category" placeholder="Enter service agreement category"></input>
+                <input name="Title" placeholder="Enter service agreement title" required></input>
+                <input name="Description" placeholder="Enter service agreement description" required></input>
+                <input name="Priority" placeholder="Enter service agreement priority" required></input>
+                <input name="Category" placeholder="Enter service agreement category" required></input>
                 <Dropdown
                     aria-label="Department"
                     options={options}

@@ -9,4 +9,4 @@ export default function Navbar() {
       <NavLink to="/Department">Department</NavLink>
     </nav>
   );
-}
+}   

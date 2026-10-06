@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from "sonner";
 
 type SignUpFormProps = {
   onSuccess: () => void
@@ -22,6 +23,7 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     });
     if (response.ok) {
         onSuccess();
+        toast.success("Du er nu signed up");
     }else
     {
         setError(await response.json())
@@ -32,8 +34,8 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     <form onSubmit={handleSubmit}>
       <div>
         <label htmlFor="usernameInput">Username:</label>
-        <input id="UserName" name="UserName" type="text" />
-        <input id="Password" name="Password" type="password" />
+        <input id="UserName" name="UserName" type="text" required/>
+        <input id="Password" name="Password" type="password" required/>
       </div>
       {error.map((errorMsg) => {
         return(

@@ -62,6 +62,10 @@ export default defineConfig({
             '^/serviceagreement': {
                 target,
                 secure: false
+            },
+            '^/user': {
+                target,
+                secure: false
             }
         },
         port: parseInt(env.DEV_SERVER_PORT || '51193'),

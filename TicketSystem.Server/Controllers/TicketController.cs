@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TicketSystem.Server.Models;
+using TicketSystem.Server.Models.DTOs;
 using TicketSystem.Server.Services;
 
 namespace TicketSystem.Server.Controllers
@@ -22,10 +23,6 @@ namespace TicketSystem.Server.Controllers
         [HttpPost("CreateTicket")]
         public IActionResult CreateTicket([FromBody] TicketRequest request)
         {
-            if (string.IsNullOrWhiteSpace(request.Title) || string.IsNullOrWhiteSpace(request.Description))
-            {
-                return BadRequest("Invalid ticket data.");
-            }
             System.Security.Claims.ClaimsPrincipal currentUser = this.User;
 
             request.SubmittedBy = currentUser.Identity?.Name ?? "Unknown";
@@ -36,7 +33,7 @@ namespace TicketSystem.Server.Controllers
         [HttpGet("GetTickets")]
         public IActionResult GetTickets()
         {
-            var tickets = _ticketService.GetTickets();
+            List<TicketTableDTO> tickets = _ticketService.GetTicketsForTable();
             return Ok(tickets);
         }
     }
