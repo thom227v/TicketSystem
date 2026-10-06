@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import TicketViewModal from "../Modals/TicketViewModal";
 
 interface Ticket {
     id: number;
@@ -7,12 +8,12 @@ interface Ticket {
     description: string;
     priority: number;
     category: number;
-    affecteduser: string;
+    affectedusers: string[];
 }
 
 function Table() {
-
     const [tickets, setTickets] = useState<Ticket[]>();
+    const [viewTicket, setViewTicket] = useState<Ticket | null>(null);
 
     async function GetTickets() {
     const response = await fetch('/ticket/GetTickets');
@@ -24,6 +25,7 @@ function Table() {
     useEffect(() => {
         GetTickets();
     }, []);
+
 
 return (
     <>
@@ -37,22 +39,26 @@ return (
                     <th>Priority</th>
                     <th>Category</th>
                     <th>Affected User</th>
+                    <th>View</th>
                 </tr>
             </thead>
             <tbody>
                 {tickets.map(ticket =>
-                    <tr key={ticket.id}>
+                    <tr key={ticket.id} className=">w-50">
                         <td>{ticket.id}</td>
                         <td>{ticket.submittedby}</td>
                         <td>{ticket.title}</td>
                         <td>{ticket.description}</td>
                         <td>{ticket.priority}</td>
                         <td>{ticket.category}</td>
-                        <td>{ticket.affecteduser}</td>
+                        <td>{ticket.affectedusers.length < 2 ? ticket.affectedusers[0] : `${ticket.affectedusers[0]} +${ticket.affectedusers.length-1} `}</td>
+                        <td><button type="button" onClick={() => setViewTicket(ticket)}>View</button></td>
                     </tr>
                 )}
             </tbody>
         </table>}
+        {viewTicket !== null &&
+            <TicketViewModal ticket={viewTicket} show={true} onHide={() => setViewTicket(null)} />}
     </>
 
 );

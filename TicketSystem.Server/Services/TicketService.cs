@@ -40,8 +40,8 @@ namespace TicketSystem.Server.Services
 
             foreach (TicketTableDTO ticketTableDTO in ticketTableDTOs)
             {
-                string affecteduser = _context.GetAffectedPartyNameByTicketId(ticketTableDTO.id);
-                ticketTableDTO.affecteduser = affecteduser;
+                List<string> affectedusers = _context.GetAffectedPartiesNameByTicketId(ticketTableDTO.id).ToList();
+                ticketTableDTO.affectedusers = affectedusers;
             }
 
             return ticketTableDTOs;
