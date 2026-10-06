@@ -1,5 +1,7 @@
 import { useState, useEffect } from 'react';
-import Dropdown, { type Option } from 'react-dropdown'
+import Dropdown from 'react-dropdown'
+import { toast } from "sonner";
+
 
 interface Department {
     id: number;
@@ -19,15 +21,14 @@ function Create() {
         const data = Object.fromEntries(formData.entries());   
         data.department = currentDepartment;
 
-
-        const response = await fetch('/serviceagreement/CreateServiceAgreement', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(data)
-        });
-        if (response.ok) {
-            alert("Service agreement created successfully");
-        }};
+            const response = await fetch('/serviceagreement/CreateServiceAgreement', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+            });
+            if (response.ok) {
+                toast.success("Service agreement created successfully");
+            }};
 
         async function getDepartments() {
         const response = await fetch('/department/GetDepartments');
@@ -54,8 +55,8 @@ function Create() {
         <>
            <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
                 <label>Create SLA</label>
-                <input className="form-control" name="Title" placeholder="Enter service agreement title"></input>
-                <input className="form-control" name="Description" placeholder="Enter service agreement description"></input>
+                <input className="form-control" name="Title" placeholder="Enter service agreement title" required></input>
+                <input className="form-control" name="Description" placeholder="Enter service agreement description" required></input>
                 <Dropdown className="btn btn-secondary dropdown-toggle"
                     aria-label="Department"
                     options={options}

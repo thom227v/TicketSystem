@@ -9,4 +9,4 @@ export default function Navbar() {
       <NavLink className={({ isActive, isPending }) =>isPending ? "nav-item" : isActive ? "nav-item active" : ""} to="/Department">Department</NavLink>
     </nav>
   );
-}
+}   

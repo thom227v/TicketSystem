@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { toast } from "sonner";
 
 type SignUpFormProps = {
   onSuccess: () => void
@@ -22,6 +23,7 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     });
     if (response.ok) {
         onSuccess();
+        toast.success("Du er nu signed up");
     }else
     {
         setError(await response.json())
@@ -32,11 +34,11 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
     <form className="w-25 mx-auto d-flex flex-column" onSubmit={handleSubmit}>
         <div className="form-group">
           <label>Username</label>
-          <input className="form-control"  name="UserName" type="text" />
+          <input className="form-control"  name="UserName" type="text" required/>
         </div>
         <div className="form-group">
           <label>Username</label>
-          <input className="form-control" name="Password" type="password" />
+          <input className="form-control" name="Password" type="password" required/>
         </div>
         {error.map((errorMsg) => {
           return(
