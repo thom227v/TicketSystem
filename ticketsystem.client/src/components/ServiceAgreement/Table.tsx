@@ -10,7 +10,6 @@ interface ServiceAgreementWithDepartmentName {
 }
 
 function Table() {
-
     const [serviceAgreements, setServiceAgreements] = useState<ServiceAgreementWithDepartmentName[]>();
 
     async function GetServiceAgreements() {

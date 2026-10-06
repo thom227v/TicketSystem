@@ -11,12 +11,10 @@ namespace TicketSystem.Server.Controllers
     [ApiController]
     public class TicketController : ControllerBase
     {
-        private readonly DepartmentService _departmentService;
         private readonly TicketService _ticketService;
 
-        public TicketController(DepartmentService departmentService, TicketService ticketService)
+        public TicketController(TicketService ticketService)
         {
-            _departmentService = departmentService;
             _ticketService = ticketService;
         }    
 

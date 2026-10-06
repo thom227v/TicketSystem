@@ -59,7 +59,10 @@ function Create() {
                 <input className="form-control" name="Description" placeholder="Enter ticket description" required></input>
                 <input className="form-control" name="Priority" placeholder="Enter ticket priority" required></input>
                 <input className="form-control" name="Category" placeholder="Enter ticket category" required></input>
-                {usernamePartial}
+                <input name="AffectedUsername" placeholder="Enter username of affected user" onChange={handleUsernameChange}></input>
+                {username?.length && userReponse?.length
+                ? <button onClick={handleChoosenUsername} type="button">{userReponse}</button> 
+                : <div hidden></div>}
                 <button className="mt-1 btn btn-primary" type="submit">Create Ticket</button>
             </form>
         </>

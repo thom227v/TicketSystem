@@ -37,7 +37,7 @@ function Table() {
                     </tr>
                 )}
             </tbody>
-        </table>};
+        </table>}
     </>
 
 );
