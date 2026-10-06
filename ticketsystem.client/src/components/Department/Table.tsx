@@ -22,7 +22,7 @@ function Table() {
 
     return (
     <>
-        {departments === undefined ? <p>currently no departments</p> : <table className="table table-striped" aria-labelledby="tableLabel">
+        {departments === undefined ? <p>currently no departments</p> : <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
             <thead>
                 <tr>
                     <th>Id</th>

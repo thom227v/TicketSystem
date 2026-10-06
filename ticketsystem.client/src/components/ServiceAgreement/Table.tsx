@@ -26,7 +26,7 @@ function Table() {
 
 return (
     <>
-        {serviceAgreements === undefined ? <p>currently no service agreements</p> : <table className="table table-striped" aria-labelledby="tableLabel">
+        {serviceAgreements === undefined ? <p>currently no service agreements</p> : <table className="mt-4 w-75 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
             <thead>
                 <tr>
                     <th>Id</th>
