@@ -1,9 +1,6 @@
 import { toast } from "sonner";
 
-type SignUpFormProps = {
-  onSuccess: () => void
-}
-function SignInForm({ onSuccess }: SignUpFormProps) {
+function SignInForm() {
   async function handleSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
     event.preventDefault()
     const form = event.currentTarget
@@ -18,8 +15,7 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
         body: JSON.stringify(data)
     });
     if (response.ok) {
-        onSuccess();
-        toast.success("Du er nu signed in");
+        toast.success("You are now signed in");
     }
   }
 
@@ -33,7 +29,7 @@ function SignInForm({ onSuccess }: SignUpFormProps) {
              <label>Password</label>
              <input className="form-control" name="Password" type="password" required/>
         </div>
-        <button className="w-50 align-self-center mt-2 btn btn-primary" type="submit">Submit</button>
+        <button className="w-100 align-self-center mt-2 btn btn-primary" type="submit">Sign in</button>
     </form>
   )
 }

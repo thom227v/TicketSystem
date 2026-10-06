@@ -18,6 +18,7 @@ namespace TicketSystem.Server.Controllers
             _departmentService = departmentService;
         }
 
+        [AllowAnonymous]
         [HttpGet("GetDepartments")]
         public async Task<IActionResult> GetDepartments()
         {

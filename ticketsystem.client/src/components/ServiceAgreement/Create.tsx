@@ -57,7 +57,10 @@ function Create() {
                 <label>Create SLA</label>
                 <input className="form-control" name="Title" placeholder="Enter service agreement title" required></input>
                 <input className="form-control" name="Description" placeholder="Enter service agreement description" required></input>
-                <Dropdown className="btn btn-secondary dropdown-toggle"
+                <Dropdown
+                    controlClassName="btn btn-outline-primary dropdown-toggle"
+                    menuClassName="list-group"
+                    optionClassName="list-group-item list-group-item-action"
                     aria-label="Department"
                     options={options}
                     onChange={(option) => {

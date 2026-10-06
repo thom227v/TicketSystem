@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TicketSystem.Server.Context;
 
 using TicketSystem.Server.Context;
+using TicketSystem.Server.Models.Auth;
 using TicketSystem.Server.Services;
 
 namespace TicketSystem.Server
@@ -33,7 +34,7 @@ namespace TicketSystem.Server
             //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
-            builder.Services.AddIdentity<IdentityUser, IdentityRole>(options =>
+            builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings.
                 options.Password.RequireDigit = true;

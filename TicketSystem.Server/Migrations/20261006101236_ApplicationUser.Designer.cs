@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using TicketSystem.Server.Context;
@@ -11,9 +12,11 @@ using TicketSystem.Server.Context;
 namespace TicketSystem.Server.Migrations
 {
     [DbContext(typeof(UserDbContext))]
-    partial class UserDbContextModelSnapshot : ModelSnapshot
+    [Migration("20261006101236_ApplicationUser")]
+    partial class ApplicationUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -188,9 +191,6 @@ namespace TicketSystem.Server.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("text");
 
-                    b.Property<int>("DepartmentId")
-                        .HasColumnType("integer");
-
                     b.Property<string>("Email")
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
@@ -232,6 +232,9 @@ namespace TicketSystem.Server.Migrations
                         .HasMaxLength(256)
                         .HasColumnType("character varying(256)");
 
+                    b.Property<int?>("departmentid")
+                        .HasColumnType("integer");
+
                     b.HasKey("Id");
 
                     b.HasIndex("NormalizedEmail")
@@ -241,7 +244,60 @@ namespace TicketSystem.Server.Migrations
                         .IsUnique()
                         .HasDatabaseName("UserNameIndex");
 
+                    b.HasIndex("departmentid");
+
                     b.ToTable("AspNetUsers", "user");
+                });
+
+            modelBuilder.Entity("TicketSystem.Server.Models.Department", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("name")
+                        .IsRequired()
+                        .HasColumnType("text");
+
+                    b.HasKey("id");
+
+                    b.ToTable("Department", "user");
+                });
+
+            modelBuilder.Entity("TicketSystem.Server.Models.ServiceAgreement", b =>
+                {
+                    b.Property<int>("id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("id"));
+
+                    b.Property<string>("createdby")
+                        .HasColumnType("text");
+
+                    b.Property<int>("departmentid")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("description")
+                        .IsRequired()
+                        .HasMaxLength(1000)
+                        .HasColumnType("character varying(1000)");
+
+                    b.Property<string>("signedby")
+                        .HasColumnType("text");
+
+                    b.Property<string>("title")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .HasColumnType("character varying(255)");
+
+                    b.HasKey("id");
+
+                    b.HasIndex("departmentid");
+
+                    b.ToTable("ServiceAgreement", "user");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -344,6 +400,31 @@ namespace TicketSystem.Server.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("TicketSystem.Server.Models.Auth.ApplicationUser", b =>
+                {
+                    b.HasOne("TicketSystem.Server.Models.Department", "department")
+                        .WithMany()
+                        .HasForeignKey("departmentid");
+
+                    b.Navigation("department");
+                });
+
+            modelBuilder.Entity("TicketSystem.Server.Models.ServiceAgreement", b =>
+                {
+                    b.HasOne("TicketSystem.Server.Models.Department", "department")
+                        .WithMany("ServiceAgreements")
+                        .HasForeignKey("departmentid")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("department");
+                });
+
+            modelBuilder.Entity("TicketSystem.Server.Models.Department", b =>
+                {
+                    b.Navigation("ServiceAgreements");
                 });
 #pragma warning restore 612, 618
         }
