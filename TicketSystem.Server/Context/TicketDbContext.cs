@@ -10,11 +10,17 @@ namespace TicketSystem.Server.Context
         public DbSet<Ticket> ticket { get; set; }
         public DbSet<ServiceAgreement> serviceagreement { get; set; }
         public DbSet<AffectedParty> affectedparty { get; set; }
+        public DbSet<Timelog> timelog { get; set; }
+        public DbSet<TicketAssign> ticketAssign { get; set; }
+
+
+
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
             _config = config;
         }
+
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseNpgsql(_config.GetConnectionString("DefaultConnection"));
@@ -24,7 +30,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-               return context.department.ToList();
+                return context.department.ToList();
             }
         }
 
@@ -115,17 +121,47 @@ namespace TicketSystem.Server.Context
                     throw new Exception("affected party could not be created as ticket was not found");
                 }
 
-                context.affectedparty.Add(new AffectedParty { ticketid = parsedId, userid = request.Username });
+                context.affectedparty.RemoveRange(context.affectedparty.Where(x => x.ticketid == parsedId));
+                
+                context.affectedparty.AddRange(request.Usernames
+                    .Where(username => !string.IsNullOrWhiteSpace(username))
+                    .Distinct()
+                    .Select(username => new AffectedParty { ticketid = parsedId, userid = username }));
                 context.SaveChanges();
             }
         }
 
-        public string GetAffectedPartyNameByTicketId(int id)
+        public IEnumerable<string> GetAffectedPartiesNameByTicketId(int id)
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                return affectedparty.FirstOrDefault(x => x.ticketid == id)?.userid;
+                return affectedparty.Where(x => x.ticketid == id).Select(x => x.userid);
             }
+        }
+
+        public List<Timelog> GetAllTimeLogsByTicketAssignId(int ticketAssignId)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.timelog.Where(x => x.ticketassignid == ticketAssignId).ToList();
+            }
+        }
+
+        public void UpdateTicket(TicketRequest request)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                Ticket ticket = context.ticket.FirstOrDefault(t => t.title == request.Title && t.description == request.Description);
+                if (ticket == null)
+                {
+                    throw new Exception("Ticket not found for update.");
+                }
+             
+                ticket.priority = request.Priority;
+                ticket.category = request.Category;
+                context.SaveChanges();
+            }
+            CreateAffectedUser(request);
         }
     }
 }

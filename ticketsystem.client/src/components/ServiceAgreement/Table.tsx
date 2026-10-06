@@ -1,8 +1,14 @@
 import { useEffect, useState } from "react";
 
+interface Department {
+    id: number;
+    name: string;
+}
+
+
 interface ServiceAgreementWithDepartmentName {
     id: number;
-    departmentName: string;
+    department: Department;
     title: string;
     description: string;
     createdby: string;
@@ -40,7 +46,7 @@ return (
                 {serviceAgreements.map(serviceAgreement =>
                     <tr key={serviceAgreement.id}>
                         <td>{serviceAgreement.id}</td>
-                        <td>{serviceAgreement.departmentName}</td>
+                        <td>{serviceAgreement.department.name}</td>
                         <td>{serviceAgreement.title}</td>
                         <td>{serviceAgreement.description}</td>
                         <td>{serviceAgreement.createdby}</td>

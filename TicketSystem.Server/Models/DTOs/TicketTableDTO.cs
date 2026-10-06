@@ -10,6 +10,6 @@ namespace TicketSystem.Server.Models.DTOs
         public string description { get; set; }
         public int priority { get; set; }
         public int category { get; set; }
-        public string affecteduser { get; set; }
+        public List<string> affectedusers { get; set; }
     }
 }
