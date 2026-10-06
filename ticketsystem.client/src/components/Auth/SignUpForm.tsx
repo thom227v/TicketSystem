@@ -29,21 +29,21 @@ function SignUpForm({ onSuccess }: SignUpFormProps) {
   }
 
   return (
-    <form className="w-100" onSubmit={handleSubmit}>
-      <div className="form-group">
-        <label>Username</label>
-        <input className="form-control"  name="UserName" type="text" />
-      </div>
-      <div className="form-group">
-        <label>Username</label>
-        <input className="form-control" name="Password" type="password" />
-      </div>
-      {error.map((errorMsg) => {
-        return(
-        <p>{errorMsg}</p>
-        )
-      })}
-      <button className="btn btn-primary" type="submit">Submit</button>
+    <form className="w-25 mx-auto d-flex flex-column" onSubmit={handleSubmit}>
+        <div className="form-group">
+          <label>Username</label>
+          <input className="form-control"  name="UserName" type="text" />
+        </div>
+        <div className="form-group">
+          <label>Username</label>
+          <input className="form-control" name="Password" type="password" />
+        </div>
+        {error.map((errorMsg) => {
+          return(
+          <p>{errorMsg}</p>
+          )
+        })}
+        <button className="w-50 align-self-center mt-2 btn btn-primary" type="submit">Submit</button>
     </form>
   )
 }

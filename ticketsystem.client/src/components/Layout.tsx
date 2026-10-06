@@ -7,7 +7,9 @@ export default function Layout() {
       <Navbar />
 
       <main className="d-flex justify-content-center">
-        <Outlet />
+        <div className="p-3 flex-fill">
+            <Outlet />
+        </div>
       </main>
     </>
   );

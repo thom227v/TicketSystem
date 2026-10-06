@@ -13,12 +13,9 @@ export default function HomePage() {
 
   return (
     <main>
-      <h1>Welcome</h1>
-
-        <SignUpForm onSuccess={handleSignUpSuccess} />
-                    <SignInForm onSuccess={handleSignUpSuccess} />
-
-
+      <h1 className="text-center">Welcome</h1>
+      <SignUpForm onSuccess={handleSignUpSuccess} />
+      <SignInForm onSuccess={handleSignUpSuccess} />
     </main>
   );
 }
