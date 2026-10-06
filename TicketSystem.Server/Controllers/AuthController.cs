@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using TicketSystem.Server.Models.Auth;
 using TicketSystem.Server.Models.Auth.DTO;
 
 namespace TicketSystem.Server.Controllers
@@ -9,12 +10,12 @@ namespace TicketSystem.Server.Controllers
     [AllowAnonymous]
     [Route("[controller]")]
     [ApiController]
-    public class AuthController(UserManager<IdentityUser> userManager, SignInManager<IdentityUser> signInManager) : ControllerBase
+    public class AuthController(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : ControllerBase
     {
         [HttpPost("SignUp")]
         public async Task<IActionResult> SignUp([FromBody] SignUpDTO signUpDTO)
         {
-            IdentityUser newIdentityUser = new IdentityUser 
+            ApplicationUser newIdentityUser = new ApplicationUser
             {
                 UserName = signUpDTO.UserName
             };
@@ -41,7 +42,7 @@ namespace TicketSystem.Server.Controllers
         [HttpPost("SignIn")]
         public async Task<IActionResult> SignIn([FromBody] SignUpDTO signInDTO)
         {
-            IdentityUser? user = await userManager.FindByNameAsync(signInDTO.UserName);
+            ApplicationUser? user = await userManager.FindByNameAsync(signInDTO.UserName);
             if (user == null)
             {
                 return BadRequest("Username or password is incorrect");
