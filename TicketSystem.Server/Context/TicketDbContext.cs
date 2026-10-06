@@ -9,6 +9,7 @@ namespace TicketSystem.Server.Context
         public DbSet<Department> department { get; set; }
         public DbSet<Ticket> ticket { get; set; }
         public DbSet<ServiceAgreement> serviceagreement { get; set; }
+        public DbSet<AffectedParty> affectedparty { get; set; }
         private readonly IConfiguration _config;
         public TicketDbContext(IConfiguration config)
         {
@@ -51,6 +52,7 @@ namespace TicketSystem.Server.Context
                 context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priority = request.Priority, category = request.Category });
                 context.SaveChanges();
             }
+            CreateAffectedUser(request);
         }
 
         public List<Ticket> GetAllTickets()
@@ -99,6 +101,30 @@ namespace TicketSystem.Server.Context
             using (TicketDbContext context = new TicketDbContext(_config))
             {
                 return context.ticket.ToList();
+            }
+        }
+
+        public void CreateAffectedUser(TicketRequest request)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                bool ticketId = int.TryParse(context.ticket.FirstOrDefault(t => t.title == request.Title && t.description == request.Description)?.id.ToString(), out int parsedId);
+
+                if (!ticketId)
+                {
+                    throw new Exception("affected party could not be created as ticket was not found");
+                }
+
+                context.affectedparty.Add(new AffectedParty { ticketid = parsedId, userid = request.Username });
+                context.SaveChanges();
+            }
+        }
+
+        public string GetAffectedPartyNameByTicketId(int id)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return affectedparty.FirstOrDefault(x => x.ticketid == id)?.userid;
             }
         }
     }

@@ -9,4 +9,4 @@ export default function Navbar() {
       <NavLink className="nav-item btn" to="/Department">Department</NavLink>
     </nav>
   );
-}
+}   

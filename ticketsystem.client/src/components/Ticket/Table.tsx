@@ -7,6 +7,7 @@ interface Ticket {
     description: string;
     priority: number;
     category: number;
+    affecteduser: string;
 }
 
 function Table() {
@@ -35,6 +36,7 @@ return (
                     <th>Description</th>
                     <th>Priority</th>
                     <th>Category</th>
+                    <th>Affected User</th>
                 </tr>
             </thead>
             <tbody>
@@ -46,6 +48,7 @@ return (
                         <td>{ticket.description}</td>
                         <td>{ticket.priority}</td>
                         <td>{ticket.category}</td>
+                        <td>{ticket.affecteduser}</td>
                     </tr>
                 )}
             </tbody>

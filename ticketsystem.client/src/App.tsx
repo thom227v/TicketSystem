@@ -7,10 +7,13 @@ import Ticket from './pages/Ticket';
 import Layout from './components/Layout';
 import ServiceAgreement from "./pages/ServiceAgreement";
 import Department from "./pages/Department";
+import { Toaster } from "sonner";
 import 'bootstrap/dist/css/bootstrap.css';
+
 function App() {
     return(
     <>
+    <Toaster/>
       <Routes>
         <Route element={<Layout />}>
           <Route path="/" element={<Home />} />
