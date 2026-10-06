@@ -17,7 +17,7 @@ function Create() {
 
     return (
         <>
-            <form className="w-50 mx-auto d-flex flex-column form-group" onSubmit={handleTicketSubmit}>
+            <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
                 <label>Fill out ticket blanket</label>
                 <input className="form-control" name="Title" placeholder="Enter ticket title"></input>
                 <input className="form-control" name="Description" placeholder="Enter ticket description"></input>

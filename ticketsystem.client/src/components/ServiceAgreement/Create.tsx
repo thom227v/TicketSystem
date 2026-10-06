@@ -52,13 +52,11 @@ function Create() {
 
     return (
         <>
-            <form onSubmit={handleTicketSubmit}>
-                <div>
-                    <p>Create SLA</p>
-                </div>
-                <input name="Title" placeholder="Enter service agreement title"></input>
-                <input name="Description" placeholder="Enter service agreement description"></input>
-                <Dropdown
+           <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
+                <label>Create SLA</label>
+                <input className="form-control" name="Title" placeholder="Enter service agreement title"></input>
+                <input className="form-control" name="Description" placeholder="Enter service agreement description"></input>
+                <Dropdown className="btn btn-secondary dropdown-toggle"
                     aria-label="Department"
                     options={options}
                     onChange={(option) => {
@@ -72,7 +70,7 @@ function Create() {
                     }}      
                     placeholder="Select a department"
                     />
-                <button type="submit">Submit</button>
+                <button className="mt-1 btn btn-primary" type="submit">Submit</button>
             </form>
         </>
     );

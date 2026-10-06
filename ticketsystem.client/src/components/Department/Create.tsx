@@ -18,12 +18,10 @@ function Create() {
 
     return (
         <>
-            <form onSubmit={handleTicketSubmit}>
-                <div>
-                    <p>Create Department</p>
-                </div>
-                <input name="name" placeholder="Enter department name"></input>
-                <button type="submit">Submit</button>
+            <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
+                <label>Create Department</label>
+                <input className="form-control" name="name" placeholder="Enter department name"></input>
+                <button className="w-50 align-self-center btn btn-primary" type="submit">Submit</button>
             </form>
         </>
     );
