@@ -27,6 +27,11 @@ function Table() {
         GetTickets();
     }, []);
 
+    useEffect(() => {
+        GetTickets();
+
+    }, [viewTicket])
+
 
 return (
     <>

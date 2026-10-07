@@ -82,7 +82,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priorityid = request.PriorityId, categoryid = request.CategoryId, stageid = request.StageId });
+                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priorityid = request.PriorityId, categoryid = request.CategoryId, stageid = 1 });
                 context.SaveChanges();
             }
             CreateAffectedUser(request);
