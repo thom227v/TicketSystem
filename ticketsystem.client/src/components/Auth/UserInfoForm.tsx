@@ -32,9 +32,19 @@ function UserInfoForm() {
   }, [location.pathname, navigate]);
 
   return (
-    <div>
-      <p>{userInfo?.userName}</p>
-    </div>
+    <>
+        {
+            userInfo !== undefined && userInfo?.userName !== undefined ?
+                <div className="nav-item flex-grow-1 d-flex justify-content-end">
+                    <div className="nav-item border border-secondary rounded p-2 d-flex justify-content-center align-items-center">
+                         <p className="m-0">Logged in as: {userInfo?.userName}</p>
+                    </div>
+                </div>
+            :
+            <></>
+        }
+        
+    </>
   );
 }
 
