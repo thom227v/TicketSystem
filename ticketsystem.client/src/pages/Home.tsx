@@ -1,4 +1,4 @@
-import Create from "../components/Home/Create";
+import Create from "../components/Ticket/Create";
 export default function HomePage() {
   return (
     <main>
