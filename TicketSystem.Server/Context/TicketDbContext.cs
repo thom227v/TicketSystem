@@ -13,7 +13,9 @@ namespace TicketSystem.Server.Context
         public DbSet<AffectedParty> affectedparty { get; set; }
         public DbSet<Timelog> timelog { get; set; }
         public DbSet<TicketAssign> ticketassign { get; set; }
-
+        public DbSet<Stage> stage { get; set; }
+        public DbSet<Priority> priority { get; set; }
+        public DbSet<Category> category { get; set; }
 
 
         private readonly IConfiguration _config;
@@ -25,6 +27,30 @@ namespace TicketSystem.Server.Context
         protected override void OnConfiguring(DbContextOptionsBuilder options)
         {
             options.UseNpgsql(_config.GetConnectionString("DefaultConnection"));
+        }
+
+        public List<Stage> GetAllStages()
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.stage.ToList();
+            }
+        }
+
+        public List<Priority> GetAllPriorities()
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.priority.ToList();
+            }
+        }
+
+        public List<Category> GetAllCategories()
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                return context.category.ToList();
+            }
         }
 
         public List<Department> GetAllDepartments()
@@ -136,7 +162,10 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                return affectedparty.Where(x => x.ticketid == id).Select(x => x.userid);
+                return context.affectedparty
+                    .Where(x => x.ticketid == id)
+                    .Select(x => x.userid)
+                    .ToList();
             }
         }
 

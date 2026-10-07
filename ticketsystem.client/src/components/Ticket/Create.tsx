@@ -1,10 +1,26 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
+import Dropdown from 'react-dropdown'
+
+interface Priority {
+    id: number;
+    prioritylabel: string;
+}
+
+interface Category {
+    id: number;
+    categorylabel: string;
+}
+
 
 function Create() {
     const [username, setUsername] = useState<string>("");
     const [userResponse, setUserResponse] = useState<string>("");
     const [selectedUsernames, setSelectedUsernames] = useState<string[]>([]);
+    const [priorities, setPriorities] = useState<Priority[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [priority, setPriority] = useState<Priority>();
+    const [category, setCategory] = useState<Category>();
 
     async function handleTicketSubmit(event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -12,8 +28,9 @@ function Create() {
         const formData = new FormData(form);
         const data = {
             ...Object.fromEntries(formData.entries()),
-            Username: selectedUsernames[0] ?? "",
-            Usernames: selectedUsernames
+            Usernames: selectedUsernames,
+            PriorityId: priority?.id,
+            CategoryId: category?.id
         };
 
         const response = await fetch('/ticket/CreateTicket', {
@@ -45,19 +62,56 @@ function Create() {
         setSelectedUsernames((current) => current.filter((name) => name !== usernameToRemove));
     };
 
-    useEffect(() => {
-        async function getUser() {
-            if (!username.trim()) {
-                setUserResponse("");
-                return;
-            }
+    async function GetAllPriorities() {
+        const response = await fetch(`/ticket/GetPriorities`);
+        if (response.ok) {
+            setPriorities(await response.json());
+        }
+    }
 
-            const response = await fetch(`/user/GetUserByUsername/${encodeURIComponent(username)}`);
-            if (response.ok) {
-                setUserResponse(await response.text());
-            }
+    async function GetAllCategories() {
+        const response = await fetch(`/ticket/GetCategories`);
+        if (response.ok) {
+            setCategories(await response.json());
+        }
+    }
+
+    useEffect(() => {
+        GetAllPriorities();
+        GetAllCategories();
+    }, [])
+
+    const priorityOptions = priorities === undefined ? [] : priorities.map((priority) => ({
+    value: priority.id,
+    label: priority.prioritylabel,
+    }));
+
+    const categoryOptions = categories === undefined ? [] : categories.map((category) => ({
+    value: category.id,
+    label: category.categorylabel,
+    }));
+
+    const handlePriority = (priority : Priority) => {
+        setPriority(priority);
+    };
+
+    const handleCategory = (category : Category) => {
+        setCategory(category);
+    };
+
+    async function getUser() {
+        if (!username.trim()) {
+            setUserResponse("");
+            return;
         }
 
+        const response = await fetch(`/user/GetUserByUsername/${encodeURIComponent(username)}`);
+        if (response.ok) {
+            setUserResponse(await response.text());
+        }
+    }
+    
+    useEffect(() => {
         getUser();
     }, [username]);
 
@@ -66,6 +120,41 @@ function Create() {
             <label>Fill out ticket blanket</label>
             <input className="form-control" name="Title" placeholder="Enter ticket title" required />
             <input className="form-control" name="Description" placeholder="Enter ticket description" required />
+
+            <Dropdown
+                controlClassName="btn btn-outline-primary dropdown-toggle"
+                menuClassName="list-group"
+                optionClassName="list-group-item list-group-item-action"
+                aria-label="Priority"
+                options={priorityOptions}
+                onChange={(option) => {
+                const priority = priorities?.find(
+                    (priority) => priority.id === option.value
+                );
+
+                if (priority) {
+                    handlePriority(priority);
+                }
+                }}      
+                placeholder="Select a priority"
+            />
+            <Dropdown
+                controlClassName="btn btn-outline-primary dropdown-toggle"
+                menuClassName="list-group"
+                optionClassName="list-group-item list-group-item-action"
+                aria-label="Category"
+                options={categoryOptions}
+                onChange={(option) => {
+                const category = categories?.find(
+                    (category) => category.id === option.value
+                );
+
+                if (category) {
+                    handleCategory(category);
+                }
+                }}      
+                placeholder="Select a category"
+            />
             <input className="form-control" name="PriorityId" placeholder="Enter ticket priority" type="number" required />
             <input className="form-control" name="CategoryId" placeholder="Enter ticket category" type="number" required />
             <input className="form-control" name="StageId" placeholder="Enter ticket stage" type="number" required />

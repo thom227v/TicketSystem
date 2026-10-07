@@ -6,9 +6,9 @@ interface Ticket {
     submittedby: string;
     title: string;
     description: string;
-    priorityid: number;
-    categoryid: number;
-    stageid: number;
+    priorityname: string;
+    categoryname: string;
+    stagename: string;
     affectedusers: string[];
 }
 
@@ -51,9 +51,9 @@ return (
                         <td>{ticket.submittedby}</td>
                         <td>{ticket.title}</td>
                         <td>{ticket.description}</td>
-                        <td>{ticket.priorityid}</td>
-                        <td>{ticket.categoryid}</td>
-                        <td>{ticket.stageid}</td>
+                        <td>{ticket.priorityname}</td>
+                        <td>{ticket.categoryname}</td>
+                        <td>{ticket.stagename}</td>
                         <td>{ticket.affectedusers.length < 2 ? ticket.affectedusers[0] : `${ticket.affectedusers[0]} +${ticket.affectedusers.length-1} `}</td>
                         <td><button className="btn btn-info" type="button" onClick={() => setViewTicket(ticket)}>View</button></td>
                     </tr>
