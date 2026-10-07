@@ -175,76 +175,8 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         <Modal.Header closeButton>
           <Modal.Title>View Ticket {ticket.id}</Modal.Title>
         </Modal.Header>
-        <Modal.Body className="d-flex gap-4">
-            <div>
-                <h2>Time log</h2>
-                <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
-                    <thead>
-                        <tr>
-                            <th>Logged by</th>
-                            <th>Hours logged</th>
-                            <th>Description</th>
-                            <th>logged date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timelogs.map(timelog =>
-                            <tr key={timelog.id}>
-                                <td>{timelog.assignedTo}</td>
-                                <td>{timelog.totalHoursSpent}</td>
-                                <td>{timelog.description}</td>
-                                <td>{timelog.creationDate}</td>
-                            </tr>
-                        )}
-                    </tbody>    
-                </table>
-                <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTimelogSubmit}>
-                    <label>Create timelog</label>
-                    <input className="form-control" name="TimeSpent" placeholder="Enter timelog time" type="number" required></input>
-                    <input className="form-control" name="description" placeholder="Enter description" required></input>
-                    <button className="w-50 align-self-center btn btn-primary" type="submit">Submit</button>
-                </form>
-            </div>
-            <div>
-                <div>
-                    <h2>Assign user</h2>
-                    <Dropdown
-                        controlClassName="btn btn-outline-primary dropdown-toggle"
-                        menuClassName="list-group"
-                        optionClassName="list-group-item list-group-item-action"
-                        aria-label="Assigned"
-                        options={options}
-                        onChange={(option) => {
-                        const support = supporters?.find(
-                            (support) => support.id === option.value
-                        );
-
-                        if (support) {
-                            handleAssignUser(support.username);
-                        }
-                        }}      
-                        placeholder="Select a person to assign"
-                        />
-                    </div>
-                    <div>
-                        <h2>Assigned users</h2>
-                        <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
-                            <thead>
-                                <tr>
-                                    <th>Username</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {supporters.map(support =>
-                                    <tr key={support.id}>
-                                        <td>{support.username}</td>
-                                    </tr>
-                                )}
-                            </tbody>    
-                        </table>
-                    </div>
-           </div>
-            <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
+        <Modal.Body>
+        <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
                 <h2>Edit Ticket</h2>
                 <div>
                     <label>Title</label>
@@ -317,6 +249,71 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                 </div>
                 <button className="mt-1 btn btn-primary" type="submit">Update ticket</button>
            </form>
+            <div>
+                <h2>Time log</h2>
+                <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
+                    <thead>
+                        <tr>
+                            <th>Logged by</th>
+                            <th>Hours logged</th>
+                            <th>Description</th>
+                            <th>logged date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {timelogs.map(timelog =>
+                            <tr key={timelog.id}>
+                                <td>{timelog.assignedTo}</td>
+                                <td>{timelog.totalHoursSpent}</td>
+                                <td>{timelog.description}</td>
+                                <td>{timelog.creationDate}</td>
+                            </tr>
+                        )}
+                    </tbody>    
+                </table>
+                <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTimelogSubmit}>
+                    <label>Create timelog</label>
+                    <input className="form-control" name="TimeSpent" placeholder="Enter timelog time" type="number" required></input>
+                    <input className="form-control" name="description" placeholder="Enter description" required></input>
+                    <button className="w-50 align-self-center btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+            <div>
+                    <div>
+                        <h2>Assigned users</h2>
+                        <Dropdown
+                            controlClassName="btn btn-outline-primary dropdown-toggle"
+                            menuClassName="list-group"
+                            optionClassName="list-group-item list-group-item-action"
+                            aria-label="Assigned"
+                            options={options}
+                            onChange={(option) => {
+                            const support = supporters?.find(
+                                (support) => support.id === option.value
+                            );
+
+                            if (support) {
+                                handleAssignUser(support.username);
+                            }
+                            }}      
+                            placeholder="Select a person to assign"
+                        />
+                        <table className="mt-4 w-50 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {supporters.map(support =>
+                                    <tr key={support.id}>
+                                        <td>{support.username}</td>
+                                    </tr>
+                                )}
+                            </tbody>    
+                        </table>
+                    </div>
+           </div>
         </Modal.Body>
 
         <Modal.Footer>

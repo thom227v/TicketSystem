@@ -52,7 +52,7 @@ return (
                         <td>{ticket.priority}</td>
                         <td>{ticket.category}</td>
                         <td>{ticket.affectedusers.length < 2 ? ticket.affectedusers[0] : `${ticket.affectedusers[0]} +${ticket.affectedusers.length-1} `}</td>
-                        <td><button type="button" onClick={() => setViewTicket(ticket)}>View</button></td>
+                        <td><button className="btn btn-info" type="button" onClick={() => setViewTicket(ticket)}>View</button></td>
                     </tr>
                 )}
             </tbody>
