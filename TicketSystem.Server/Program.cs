@@ -98,6 +98,11 @@ namespace TicketSystem.Server
                 {
                     userManager.AddToRoleAsync(user, "Support").GetAwaiter().GetResult();
                 }
+                ApplicationUser? user2 = userManager.FindByNameAsync("test").GetAwaiter().GetResult();
+                if (user2 != null && !userManager.IsInRoleAsync(user2, "Support").GetAwaiter().GetResult())
+                {
+                    userManager.AddToRoleAsync(user2, "Support").GetAwaiter().GetResult();
+                }
             }
 
             app.Run();

@@ -15,10 +15,10 @@ interface Ticket {
 
 interface Timelog {
     id: number;
-    assignedto: string;
-    totalhoursspent: number;
+    assignedTo: string;
+    totalHoursSpent: number;
     description: string;
-    creationdate: string;
+    creationDate: string;
 }
 
 interface Assigne {
@@ -190,10 +190,10 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                     <tbody>
                         {timelogs.map(timelog =>
                             <tr key={timelog.id}>
-                                <td>{timelog.assignedto}</td>
-                                <td>{timelog.totalhoursspent}</td>
+                                <td>{timelog.assignedTo}</td>
+                                <td>{timelog.totalHoursSpent}</td>
                                 <td>{timelog.description}</td>
-                                <td>{timelog.creationdate}</td>
+                                <td>{timelog.creationDate}</td>
                             </tr>
                         )}
                     </tbody>    
