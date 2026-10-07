@@ -155,8 +155,6 @@ function Create() {
                 }}      
                 placeholder="Select a category"
             />
-            <input className="form-control" name="PriorityId" placeholder="Enter ticket priority" type="number" required />
-            <input className="form-control" name="CategoryId" placeholder="Enter ticket category" type="number" required />
             <input className="form-control" name="StageId" placeholder="Enter ticket stage" type="number" required />
             <label htmlFor="affected-username">Affected users</label>
             <div className="d-flex flex-wrap gap-2">
