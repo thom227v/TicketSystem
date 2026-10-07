@@ -43,5 +43,26 @@ namespace TicketSystem.Server.Controllers
             List<TicketTableDTO> tickets = _ticketService.GetTicketsForTable();
             return Ok(tickets);
         }
+
+        [HttpGet("GetStages")]
+        public IActionResult GetStages()
+        {
+            List<Stage> stages = _ticketService.GetStages();
+            return Ok(stages);
+        }
+        
+        [HttpGet("GetPriorities")]
+        public IActionResult GetPriorities()
+        {
+            List<Priority> priorities = _ticketService.GetPriorities();
+            return Ok(priorities);
+        }
+
+        [HttpGet("GetCategories")]
+        public IActionResult GetCategories()
+        {
+            List<Category> categories = _ticketService.GetCategories();
+            return Ok(categories);
+        }
     }
 }

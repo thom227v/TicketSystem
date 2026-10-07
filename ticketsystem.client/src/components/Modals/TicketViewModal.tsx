@@ -8,9 +8,9 @@ interface Ticket {
     submittedby: string;
     title: string;
     description: string;
-    priorityid: number;
-    categoryid: number;
-    stageid: number;
+    priorityname: string;
+    categoryname: string;
+    stagename: string;
     affectedusers: string[];
 }
 
@@ -22,49 +22,65 @@ interface Timelog {
     creationDate: string;
 }
 
-interface Assigne {
+interface Supporter {
     id: number;
     username: string;
 }
 
-interface Supporter {
+interface Stage {
     id: number;
-    username: string;
+    stagelabel: string;
+}
+
+interface Priority {
+    id: number;
+    prioritylabel: string;
+}
+
+interface Category {
+    id: number;
+    categorylabel: string;
 }
 
 
 function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boolean; onHide: () => void }) {
     const [title, setTitle] = useState<string>(ticket.title);
     const [description, setDescription] = useState<string>(ticket.description);
-    const [priority, setPriority] = useState<number>(ticket.priorityid);
-    const [category, setCategory] = useState<number>(ticket.categoryid);
-    const [stage, setStage] = useState<number>(ticket.stageid);
     const [username, setUsername] = useState<string>("");
     const [userResponse, setUserResponse] = useState<string>("");
     const [selectedUsernames, setSelectedUsernames] = useState<string[]>(ticket.affectedusers);
-    const [assignes, setAssignes] = useState<Assigne[]>([]);
     const [supporters, setSupporters] = useState<Supporter[]>([]);
     const [timelogs, setTimelogs] = useState<Timelog[]>([]);
-    const [showLogTime, setShowLogTime] = useState<boolean>(false);
-    const [showAssignUsers, setShowAssignUsers] = useState<boolean>(false);
+    const [stages, setStages] = useState<Stage[]>([]);
+    const [priorities, setPriorities] = useState<Priority[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [stage, setStage] = useState<Stage | undefined>();
+    const [priority, setPriority] = useState<Priority | undefined>();
+    const [category, setCategory] = useState<Category | undefined>();
     
-     const handleShowLogTime = () => {
-        if (showLogTime == true){
-            setShowLogTime(false);
-        }else{
-            setShowAssignUsers(false)
-            setShowLogTime(true);
-        }
-     } 
+    useEffect(() => {
+        const currentStage = stages.find(
+            (availableStage) => availableStage.stagelabel === ticket.stagename
+        );
 
-     const handleShowAssignUsers = () => {
-        if (showAssignUsers == true){
-            setShowAssignUsers(false);
-        }else{
-            setShowLogTime(false);
-            setShowAssignUsers(true);
-        }
-     } 
+        setStage(currentStage);
+    }, [stages, ticket.stagename]);
+
+    useEffect(() => {
+        const currentPriority = priorities.find(
+            (availablePriority) => availablePriority.prioritylabel === ticket.priorityname
+        );
+
+        setPriority(currentPriority);
+    }, [stages, ticket.priorityname]);
+
+    useEffect(() => {
+        const currentCategory = categories.find(
+            (availableCategory) => availableCategory.categorylabel === ticket.categoryname
+        );
+
+        setCategory(currentCategory);
+    }, [stages, ticket.categoryname]);
 
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -72,7 +88,10 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         const formData = new FormData(form)
         const data = {
             ...Object.fromEntries(formData.entries()),
-            Usernames: selectedUsernames
+            Usernames: selectedUsernames,
+            PriorityId: priority?.id ?? priorities.find((priority) => priority.prioritylabel === ticket.priorityname)?.id,
+            StageId: stage?.id ?? stages.find((stage) => stage.stagelabel === ticket.stagename)?.id,
+            CategoryId: category?.id ?? categories.find((category) => category.categorylabel === ticket.categoryname)?.id
         };
         
         const response = await fetch('/ticket/UpdateTicket', {
@@ -136,13 +155,6 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         setSelectedUsernames((current) => current.filter((name) => name !== usernameToRemove));
     };
 
-    async function GetAssignes() {
-        const response = await fetch(`/assignedticket/GetAssignesByTicketId/${encodeURIComponent(ticket.id)}`);
-        if (response.ok) {
-            const data = await response.json();
-            setAssignes(data);
-        }};
-
     async function GetAllSupports() {
         const response = await fetch(`/user/GetAllSupportUsers`);
         if (response.ok) {
@@ -157,11 +169,54 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
             setTimelogs(data);
         }};
     
-      useEffect(() => {
-        GetAssignes();
-        GetAllSupports();
-        GetAllTimelogs();
-      }, []);
+
+    async function GetAllStages() {
+        const response = await fetch(`/ticket/GetStages`);
+        if (response.ok) {
+            setStages(await response.json());
+        }
+    }
+
+    async function GetAllPriorities() {
+        const response = await fetch(`/ticket/GetPriorities`);
+        if (response.ok) {
+            setPriorities(await response.json());
+        }
+    }
+
+    async function GetAllCategories() {
+        const response = await fetch(`/ticket/GetCategories`);
+        if (response.ok) {
+            setCategories(await response.json());
+        }
+    }
+
+    const stageOptions = stages === undefined ? [] : stages.map((stage) => ({
+    value: stage.id,
+    label: stage.stagelabel,
+    }));
+
+    const priorityOptions = priorities === undefined ? [] : priorities.map((priority) => ({
+    value: priority.id,
+    label: priority.prioritylabel,
+    }));
+
+    const categoryOptions = categories === undefined ? [] : categories.map((category) => ({
+    value: category.id,
+    label: category.categorylabel,
+    }));
+
+    const handlePriority = (priority : Priority) => {
+        setPriority(priority);
+    };
+
+    const handleStage = (stage : Stage) => {
+        setStage(stage);
+    };
+
+    const handleCategory = (category : Category) => {
+        setCategory(category);
+    };
 
 
     async function GetUser() {
@@ -177,6 +232,14 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
             setUserResponse("");
         }
     };   
+
+      useEffect(() => {
+        GetAllSupports();
+        GetAllTimelogs();
+        GetAllStages();
+        GetAllPriorities();
+        GetAllCategories();
+      }, []);
 
     useEffect(() => {
         GetUser();
@@ -222,42 +285,87 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                 </div>
                 <div>
                     <label>Priority</label>
-                   <input className="form-control" 
-                        name="PriorityId" 
-                        placeholder="Enter ticket priority" 
-                        required
-                        value={priority}
-                        type="number"
-                        min="1"
-                        max="3"
-                        onChange={(e) => setPriority(e.target.valueAsNumber)}
-                        ></input>
+                    <Dropdown
+                        controlClassName="btn btn-outline-primary dropdown-toggle"
+                        menuClassName="list-group"
+                        optionClassName="list-group-item list-group-item-action"
+                        aria-label="Priority"
+                        options={priorityOptions}
+                        value={
+                            priority
+                                ? {
+                                    value: priority.id,
+                                    label: priority.prioritylabel
+                                }
+                                : null
+                        }
+                        onChange={(option) => {
+                        const priority = priorities?.find(
+                            (priority) => priority.id === option.value
+                        );
+
+                        if (priority) {
+                            handlePriority(priority);
+                        }
+                        }}      
+                        placeholder="Select a priority"
+                    />
                 </div>
                 <div>
                     <label>Category</label>
-                    <input className="form-control" 
-                        name="CategoryId" 
-                        placeholder="Enter ticket category" 
-                        required
-                        value={category}
-                        type="number"
-                        min="1"
-                        max="3"
-                        onChange={(e) => setCategory(e.target.valueAsNumber)}
-                        ></input>
+                    <Dropdown
+                        controlClassName="btn btn-outline-primary dropdown-toggle"
+                        menuClassName="list-group"
+                        optionClassName="list-group-item list-group-item-action"
+                        aria-label="Category"
+                        options={categoryOptions}
+                        value={
+                            category
+                                ? {
+                                    value: category.id,
+                                    label: category?.categorylabel
+                                }
+                                : null
+                        }
+                        onChange={(option) => {
+                        const category = categories?.find(
+                            (category) => category.id === option.value
+                        );
+
+                        if (category) {
+                            handleCategory(category);
+                        }
+                        }}      
+                        placeholder="Select a category"
+                    />
                 </div>
                 <div>
                     <label>Stage</label>
-                    <input className="form-control" 
-                        name="StageId" 
-                        placeholder="Enter ticket stage" 
-                        required
-                        value={stage}
-                        type="number"
-                        min="1"
-                        max="3"
-                        onChange={(e) => setStage(e.target.valueAsNumber)}
-                        ></input>
+                    <Dropdown
+                        controlClassName="btn btn-outline-primary dropdown-toggle"
+                        menuClassName="list-group"
+                        optionClassName="list-group-item list-group-item-action"
+                        aria-label="Stage"
+                        options={stageOptions}
+                        value={
+                            stage
+                                ? {
+                                    value: stage.id,
+                                    label: stage.stagelabel
+                                }
+                                : null
+                        }
+                        onChange={(option) => {
+                        const stage = stages?.find(
+                            (stage) => stage.id === option.value
+                        );
+
+                        if (stage) {
+                            handleStage(stage);
+                        }
+                        }}      
+                        placeholder="Select a stage"
+                    />
                 </div>
                 <div>
                     <label>Affected party</label>

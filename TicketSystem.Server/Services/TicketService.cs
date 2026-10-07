@@ -28,21 +28,30 @@ namespace TicketSystem.Server.Services
         public List<TicketTableDTO> GetTicketsForTable()
         {
             List<Ticket> tickets = _context.GetTickets();
+            Dictionary<int, string> priorityNames = _context.GetAllPriorities()
+                .ToDictionary(priority => priority.id, priority => priority.prioritylabel);
+            Dictionary<int, string> categoryNames = _context.GetAllCategories()
+                .ToDictionary(category => category.id, category => category.categorylabel);
+            Dictionary<int, string> stageNames = _context.GetAllStages()
+                .ToDictionary(stage => stage.id, stage => stage.stagelabel);
+
             List<TicketTableDTO> ticketTableDTOs = tickets.Select(ticket => new TicketTableDTO
             {
                 id = ticket.id,
                 submittedby = ticket.submittedby,
                 title = ticket.title,
                 description = ticket.description,
-                priorityid = ticket.priorityid,
-                categoryid = ticket.categoryid,
-                stageid = ticket.stageid
+                priorityname = priorityNames.GetValueOrDefault(ticket.priorityid, "Unknown"),
+                categoryname = categoryNames.GetValueOrDefault(ticket.categoryid, "Unknown"),
+                stagename = stageNames.GetValueOrDefault(ticket.stageid, "Unknown"),
+                affectedusers = new List<string>()
             }).ToList();
 
             foreach (TicketTableDTO ticketTableDTO in ticketTableDTOs)
             {
-                List<string> affectedusers = _context.GetAffectedPartiesNameByTicketId(ticketTableDTO.id).ToList();
-                ticketTableDTO.affectedusers = affectedusers;
+                ticketTableDTO.affectedusers = _context
+                    .GetAffectedPartiesNameByTicketId(ticketTableDTO.id)
+                    .ToList();
             }
 
             return ticketTableDTOs;
@@ -51,6 +60,21 @@ namespace TicketSystem.Server.Services
         public void UpdateTicket(TicketRequest request)
         {
             _context.UpdateTicket(request);
+        }
+
+        public List<Stage> GetStages()
+        {
+            return _context.GetAllStages();
+        }
+
+        public List<Priority> GetPriorities()
+        {
+            return _context.GetAllPriorities();
+        }
+
+        public List<Category> GetCategories()
+        {
+            return _context.GetAllCategories();
         }
     }
 }
