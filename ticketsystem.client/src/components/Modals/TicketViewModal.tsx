@@ -203,7 +203,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                 <div>
                     <label>Priority</label>
                    <input className="form-control" 
-                        name="Priority" 
+                        name="PriorityId" 
                         placeholder="Enter ticket priority" 
                         required
                         value={priority}
@@ -216,7 +216,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                 <div>
                     <label>Category</label>
                     <input className="form-control" 
-                        name="Category" 
+                        name="CategoryId" 
                         placeholder="Enter ticket category" 
                         required
                         value={category}
@@ -229,7 +229,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                 <div>
                     <label>Stage</label>
                     <input className="form-control" 
-                        name="Stage" 
+                        name="StageId" 
                         placeholder="Enter ticket stage" 
                         required
                         value={stage}
