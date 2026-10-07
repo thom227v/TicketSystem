@@ -34,8 +34,9 @@ namespace TicketSystem.Server.Services
                 submittedby = ticket.submittedby,
                 title = ticket.title,
                 description = ticket.description,
-                priority = ticket.priority,
-                category = ticket.category
+                priorityid = ticket.priorityid,
+                categoryid = ticket.categoryid,
+                stageid = ticket.stageid
             }).ToList();
 
             foreach (TicketTableDTO ticketTableDTO in ticketTableDTOs)

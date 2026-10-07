@@ -56,7 +56,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priority = request.Priority, category = request.Category });
+                context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priorityid = request.PriorityId, categoryid = request.CategoryId, stageid = request.StageId });
                 context.SaveChanges();
             }
             CreateAffectedUser(request);
@@ -158,8 +158,9 @@ namespace TicketSystem.Server.Context
                     throw new Exception("Ticket not found for update.");
                 }
              
-                ticket.priority = request.Priority;
-                ticket.category = request.Category;
+                ticket.priorityid = request.PriorityId;
+                ticket.categoryid = request.CategoryId;
+                ticket.stageid = request.StageId;
                 context.SaveChanges();
             }
             CreateAffectedUser(request);

@@ -8,8 +8,9 @@ interface Ticket {
     submittedby: string;
     title: string;
     description: string;
-    priority: number;
-    category: number;
+    priorityid: number;
+    categoryid: number;
+    stageid: number;
     affectedusers: string[];
 }
 
@@ -35,8 +36,9 @@ interface Supporter {
 function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boolean; onHide: () => void }) {
     const [title, setTitle] = useState<string>(ticket.title);
     const [description, setDescription] = useState<string>(ticket.description);
-    const [priority, setPriority] = useState<number>(ticket.priority);
-    const [category, setCategory] = useState<number>(ticket.category);
+    const [priority, setPriority] = useState<number>(ticket.priorityid);
+    const [category, setCategory] = useState<number>(ticket.categoryid);
+    const [stage, setStage] = useState<number>(ticket.stageid);
     const [username, setUsername] = useState<string>("");
     const [userResponse, setUserResponse] = useState<string>("");
     const [selectedUsernames, setSelectedUsernames] = useState<string[]>(ticket.affectedusers);
@@ -207,7 +209,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                         value={priority}
                         type="number"
                         min="1"
-                        max="5"
+                        max="3"
                         onChange={(e) => setPriority(e.target.valueAsNumber)}
                         ></input>
                 </div>
@@ -220,8 +222,21 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                         value={category}
                         type="number"
                         min="1"
-                        max="5"
+                        max="3"
                         onChange={(e) => setCategory(e.target.valueAsNumber)}
+                        ></input>
+                </div>
+                <div>
+                    <label>Stage</label>
+                    <input className="form-control" 
+                        name="Stage" 
+                        placeholder="Enter ticket stage" 
+                        required
+                        value={stage}
+                        type="number"
+                        min="1"
+                        max="3"
+                        onChange={(e) => setStage(e.target.valueAsNumber)}
                         ></input>
                 </div>
                 <div>

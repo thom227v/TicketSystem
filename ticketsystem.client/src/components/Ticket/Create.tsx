@@ -66,9 +66,9 @@ function Create() {
             <label>Fill out ticket blanket</label>
             <input className="form-control" name="Title" placeholder="Enter ticket title" required />
             <input className="form-control" name="Description" placeholder="Enter ticket description" required />
-            <input className="form-control" name="Priority" placeholder="Enter ticket priority" required />
-            <input className="form-control" name="Category" placeholder="Enter ticket category" required />
-
+            <input className="form-control" name="PriorityId" placeholder="Enter ticket priority" type="number" required />
+            <input className="form-control" name="CategoryId" placeholder="Enter ticket category" type="number" required />
+            <input className="form-control" name="StageId" placeholder="Enter ticket stage" type="number" required />
             <label htmlFor="affected-username">Affected users</label>
             <div className="d-flex flex-wrap gap-2">
                 {selectedUsernames.map((selectedUsername) => (
