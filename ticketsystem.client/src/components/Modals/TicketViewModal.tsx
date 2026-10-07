@@ -45,7 +45,27 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
     const [assignes, setAssignes] = useState<Assigne[]>([]);
     const [supporters, setSupporters] = useState<Supporter[]>([]);
     const [timelogs, setTimelogs] = useState<Timelog[]>([]);
+    const [showLogTime, setShowLogTime] = useState<boolean>(false);
+    const [showAssignUsers, setShowAssignUsers] = useState<boolean>(false);
     
+     const handleShowLogTime = () => {
+        if (showLogTime == true){
+            setShowLogTime(false);
+        }else{
+            setShowAssignUsers(false)
+            setShowLogTime(true);
+        }
+     } 
+
+     const handleShowAssignUsers = () => {
+        if (showAssignUsers == true){
+            setShowAssignUsers(false);
+        }else{
+            setShowLogTime(false);
+            setShowAssignUsers(true);
+        }
+     } 
+
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
         const form = event.currentTarget
@@ -175,30 +195,30 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         >
     <Modal show={show} onHide={onHide}>
         <Modal.Header closeButton>
-          <Modal.Title>View Ticket {ticket.id}</Modal.Title>
+          <Modal.Title>Ticket {ticket.id}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <form className="w-100 mx-auto d-flex flex-column form-group gap-2" id="ticketForm" onSubmit={handleTicketSubmit}>
-                <h2>Edit Ticket</h2>
+        <form className="" id="ticketForm" onSubmit={handleTicketSubmit}>
                 <div>
                     <label>Title</label>
                     <input className="form-control" 
                         name="Title" 
                         placeholder="Enter ticket title" 
-                        required
+                        disabled
                         value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         ></input>
                 </div>
                 <div>
                     <label>Description</label>
-                    <input className="form-control" 
+                    <textarea
                         name="Description" 
+                        className="form-control" id="exampleFormControlTextarea1" 
+                        rows={5} onChange={(e) => setDescription(e.target.value)} 
                         placeholder="Enter ticket description" 
-                        required
-                        value={description}
-                        onChange={(e) => setDescription(e.target.value)}
-                        ></input>
+                        disabled
+                        value={description}>
+                        </textarea>
                 </div>
                 <div>
                     <label>Priority</label>
@@ -255,6 +275,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                         ))}
                     </div>
                     <input
+                        className="form-control w-100"
                         placeholder="Search for affected user"
                         value={username}
                         onChange={handleUsernameChange}
@@ -262,42 +283,44 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                     {username.length > 0 && userResponse.length > 0 && !selectedUsernames.includes(userResponse) &&
                         <button onClick={handleChooseUsername} type="button">{userResponse}</button>}
                 </div>
-           </form>
-           <div className="d-flex gap-2 mt-3">
-                <button className="btn btn-info">Log time</button>
-                <button className="btn btn-info">Assign users</button>
-           </div>
-            <div>
-                <h2>Time log</h2>
-                <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
-                    <thead>
-                        <tr>
-                            <th>Logged by</th>
-                            <th>Hours logged</th>
-                            <th>Description</th>
-                            <th>logged date</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {timelogs.map(timelog =>
-                            <tr key={timelog.id}>
-                                <td>{timelog.assignedTo}</td>
-                                <td>{timelog.totalHoursSpent}</td>
-                                <td>{timelog.description}</td>
-                                <td>{timelog.creationDate}</td>
-                            </tr>
-                        )}
-                    </tbody>    
-                </table>
-                <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTimelogSubmit}>
-                    <label>Create timelog</label>
-                    <input className="form-control" name="TimeSpent" placeholder="Enter timelog time" type="number" required></input>
-                    <input className="form-control" name="description" placeholder="Enter description" required></input>
-                    <button className="w-50 align-self-center btn btn-primary" type="submit">Submit</button>
-                </form>
-            </div>
-            <div>
-                    <div>
+        </form>
+                <div className="d-flex gap-2 mt-3">
+                    <button className="btn btn-info" onClick={handleShowLogTime}>Log time</button>
+                    <button className="btn btn-info"  onClick={handleShowAssignUsers}>Assign users</button>
+                </div>                             
+                {
+                    showLogTime ? (
+                    <>
+                        <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTimelogSubmit}>
+                            <label>Create timelog</label>
+                            <input className="form-control" name="TimeSpent" placeholder="Enter timelog time" type="number" required></input>
+                            <input className="form-control" name="description" placeholder="Enter description" required></input>
+                            <button className="w-50 align-self-center btn btn-primary" type="submit">Submit</button>
+                        </form>
+                        <h2>Time log</h2>
+                        <table className="table table-light table-striped" aria-labelledby="tableLabel">
+                            <thead>
+                                <tr>
+                                    <th>Logged by</th>
+                                    <th>Hours logged</th>
+                                    <th>Description</th>
+                                    <th>logged date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {timelogs.map(timelog =>
+                                    <tr key={timelog.id}>
+                                        <td>{timelog.assignedTo}</td>
+                                        <td>{timelog.totalHoursSpent}</td>
+                                        <td>{timelog.description}</td>
+                                        <td>{timelog.creationDate}</td>
+                                    </tr>
+                                )}
+                            </tbody>    
+                        </table>
+                        </>
+                        ) : showAssignUsers ? (
+                        <>
                         <h2>Assigned users</h2>
                         <Dropdown
                             controlClassName="btn btn-outline-primary dropdown-toggle"
@@ -330,8 +353,11 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                                 )}
                             </tbody>    
                         </table>
-                    </div>
-           </div>
+                        </>
+                        ) : <div></div>
+                }
+
+                        
         </Modal.Body>
 
         <Modal.Footer>
