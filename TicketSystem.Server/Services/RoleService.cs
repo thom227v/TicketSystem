@@ -16,7 +16,7 @@ namespace TicketSystem.Server.Services
             string[] roles =
             [
                 "Support",
-                "User"
+                //"User"
             ];
 
             foreach (var role in roles)

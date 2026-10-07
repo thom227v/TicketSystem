@@ -28,6 +28,7 @@ namespace TicketSystem.Server.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Support")]
         [HttpPost("UpdateTicket")]
         public IActionResult UpdateTicket([FromBody] TicketRequest request)
         {
@@ -35,6 +36,7 @@ namespace TicketSystem.Server.Controllers
             return Ok();
         }
 
+        [Authorize(Roles = "Support")]
         [HttpGet("GetTickets")]
         public IActionResult GetTickets()
         {

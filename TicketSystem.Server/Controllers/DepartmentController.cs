@@ -26,6 +26,7 @@ namespace TicketSystem.Server.Controllers
             return Ok(departments);
         }
 
+        [Authorize(Roles = "Support")]
         [HttpPost("CreateDepartment")]
         public async Task<IActionResult> CreateDepartment([FromBody] DepartmentCreationResponse createDepartment)
         {
