@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import {Modal, Button} from "react-bootstrap"
+import Dropdown from 'react-dropdown'
 
 interface Ticket {
     id: number;
@@ -12,6 +13,25 @@ interface Ticket {
     affectedusers: string[];
 }
 
+interface Timelog {
+    id: number;
+    assignedto: string;
+    totalhoursspent: number;
+    description: string;
+    creationdate: string;
+}
+
+interface Assigne {
+    id: number;
+    username: string;
+}
+
+interface Supporter {
+    id: number;
+    username: string;
+}
+
+
 function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boolean; onHide: () => void }) {
     const [title, setTitle] = useState<string>(ticket.title);
     const [description, setDescription] = useState<string>(ticket.description);
@@ -20,6 +40,9 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
     const [username, setUsername] = useState<string>("");
     const [userResponse, setUserResponse] = useState<string>("");
     const [selectedUsernames, setSelectedUsernames] = useState<string[]>(ticket.affectedusers);
+    const [assignes, setAssignes] = useState<Assigne[]>([]);
+    const [supporters, setSupporters] = useState<Supporter[]>([]);
+    const [timelogs, setTimelogs] = useState<Timelog[]>([]);
     
     async function handleTicketSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
         event.preventDefault();
@@ -39,6 +62,23 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
             toast.success("Ticket created successfully");
     }};
 
+    async function handleTimelogSubmit (event: React.SyntheticEvent<HTMLFormElement>) {
+        event.preventDefault();
+        const form = event.currentTarget
+        const formData = new FormData(form)
+        const data = {
+            ...Object.fromEntries(formData.entries()),
+            TicketId: ticket.id
+        };
+        
+        const response = await fetch('/timelog/AddTimelog', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(data)
+        });
+        if (response.ok) {
+            toast.success("Time logged successfully");
+    }};
     
     const handleChooseUsername = () => {
         if (!userResponse || selectedUsernames.includes(userResponse)) {
@@ -51,15 +91,57 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         toast.success("Affected user added");
     };
 
+    async function handleAssignUser(username: string) {
+        const response = await fetch('/assignedticket/AssignTicket', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                ticketId: ticket.id,
+                username: username
+            })
+        });
+
+        if (response.ok) {
+            toast.success("Assigned user to ticket");
+        }
+    }
+
     const handleUsernameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setUsername(e.target.value);
     };
-
+    
     const removeUsername = (usernameToRemove: string) => {
         setSelectedUsernames((current) => current.filter((name) => name !== usernameToRemove));
     };
 
-    useEffect(() => {
+    async function GetAssignes() {
+        const response = await fetch(`/assignedticket/GetAssignesByTicketId/${encodeURIComponent(ticket.id)}`);
+        if (response.ok) {
+            const data = await response.json();
+            setAssignes(data);
+        }};
+
+    async function GetAllSupports() {
+        const response = await fetch(`/user/GetAllSupportUsers`);
+        if (response.ok) {
+            const data = await response.json();
+            setSupporters(data);
+        }};
+    
+    async function GetAllTimelogs() {
+        const response = await fetch(`/timelog/GetTimelogsByTicketId/${encodeURIComponent(ticket.id)}`);
+        if (response.ok) {
+            const data = await response.json();
+            setTimelogs(data);
+        }};
+    
+      useEffect(() => {
+        GetAssignes();
+        GetAllSupports();
+        GetAllTimelogs();
+      }, []);
+
+
     async function GetUser() {
         if (username.trim())
         {
@@ -68,13 +150,21 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                 const data = await response.text();
                 setUserResponse(data);
             }
-        } else {
+        } 
+        else {
             setUserResponse("");
         }
-        }   
+    };   
+
+    useEffect(() => {
         GetUser();
     }, [username]);
 
+
+        const options = supporters === undefined ? [] : supporters.map((support) => ({
+        value: support.id,
+        label: support.username,
+        }));
 
     return (
         <div
@@ -85,7 +175,75 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         <Modal.Header closeButton>
           <Modal.Title>View Ticket {ticket.id}</Modal.Title>
         </Modal.Header>
-        <Modal.Body>
+        <Modal.Body className="d-flex gap-4">
+            <div>
+                <h2>Time log</h2>
+                <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
+                    <thead>
+                        <tr>
+                            <th>Logged by</th>
+                            <th>Hours logged</th>
+                            <th>Description</th>
+                            <th>logged date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {timelogs.map(timelog =>
+                            <tr key={timelog.id}>
+                                <td>{timelog.assignedto}</td>
+                                <td>{timelog.totalhoursspent}</td>
+                                <td>{timelog.description}</td>
+                                <td>{timelog.creationdate}</td>
+                            </tr>
+                        )}
+                    </tbody>    
+                </table>
+                <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTimelogSubmit}>
+                    <label>Create timelog</label>
+                    <input className="form-control" name="TimeSpent" placeholder="Enter timelog time" type="number" required></input>
+                    <input className="form-control" name="description" placeholder="Enter description" required></input>
+                    <button className="w-50 align-self-center btn btn-primary" type="submit">Submit</button>
+                </form>
+            </div>
+            <div>
+                <div>
+                    <h2>Assign user</h2>
+                    <Dropdown
+                        controlClassName="btn btn-outline-primary dropdown-toggle"
+                        menuClassName="list-group"
+                        optionClassName="list-group-item list-group-item-action"
+                        aria-label="Assigned"
+                        options={options}
+                        onChange={(option) => {
+                        const support = supporters?.find(
+                            (support) => support.id === option.value
+                        );
+
+                        if (support) {
+                            handleAssignUser(support.username);
+                        }
+                        }}      
+                        placeholder="Select a person to assign"
+                        />
+                    </div>
+                    <div>
+                        <h2>Assigned users</h2>
+                        <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {supporters.map(support =>
+                                    <tr key={support.id}>
+                                        <td>{support.username}</td>
+                                    </tr>
+                                )}
+                            </tbody>    
+                        </table>
+                    </div>
+           </div>
             <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
                 <h2>Edit Ticket</h2>
                 <div>

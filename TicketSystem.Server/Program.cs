@@ -18,7 +18,9 @@ namespace TicketSystem.Server
             builder.Services.AddScoped<DepartmentService>();
             builder.Services.AddScoped<TicketService>();
             builder.Services.AddScoped<ServiceAgreementService>();
+            builder.Services.AddScoped<AssignedTicketService>();
             builder.Services.AddScoped<TicketDbContext>();
+            builder.Services.AddScoped<TimelogSerivce>();
 
             builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseNpgsql(

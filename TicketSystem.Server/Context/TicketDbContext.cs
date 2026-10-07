@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Npgsql;
 using TicketSystem.Server.Models;
+using TicketSystem.Server.Models.Auth.DTO;
+
 
 namespace TicketSystem.Server.Context
 {
@@ -11,7 +12,7 @@ namespace TicketSystem.Server.Context
         public DbSet<ServiceAgreement> serviceagreement { get; set; }
         public DbSet<AffectedParty> affectedparty { get; set; }
         public DbSet<Timelog> timelog { get; set; }
-        public DbSet<TicketAssign> ticketAssign { get; set; }
+        public DbSet<TicketAssign> ticketassign { get; set; }
 
 
 
@@ -162,6 +163,79 @@ namespace TicketSystem.Server.Context
                 context.SaveChanges();
             }
             CreateAffectedUser(request);
+        }
+
+        public List<AssginesResponse> AssignesByTicketId(int ticketId)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                var assignes = context.ticketassign
+                    .Where(x => x.ticketid == ticketId)
+                    .Select(x => new AssginesResponse
+                    {
+                        Id = x.id,
+                        Name = x.worker
+                    })
+                    .ToList();
+                return assignes;
+            }
+        }
+
+        public void AssignTicket(int ticketId, string username, string assignedBy)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                if (!context.ticketassign.Any(x => x.ticketid == ticketId && x.worker == username))
+                {
+                    context.ticketassign.Add(new TicketAssign { ticketid = ticketId, worker = username, assignedby = assignedBy, creationdatetime = DateTime.UtcNow });
+                    context.SaveChanges();
+                }
+            }
+        }
+
+        public List<TimelogResponse> TimelogsByTicketId(int ticketId)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                var timelogs = context.timelog
+                    .Join(
+                        context.ticketassign,
+                        timelog => timelog.ticketassignid,
+                        assignment => assignment.id,
+                        (timelog, assignment) => new { timelog, assignment })
+                    .Where(x => x.assignment.ticketid == ticketId)
+                    .Select(x => new TimelogResponse
+                    {
+                        Id = x.timelog.id,
+                        AssignedTo = x.assignment.worker,
+                        TotalHoursSpent = x.timelog.totalhoursspent,
+                        Description = x.timelog.description,
+                        CreationDate = x.timelog.creationdate
+                    })
+                    .ToList();
+                return timelogs;
+            }
+        }
+
+        public void AddTimelog(TimelogRequest request)
+        {
+            using (TicketDbContext context = new TicketDbContext(_config))
+            {
+                TicketAssign? ticketAssign = context.ticketassign.FirstOrDefault(x => x.ticketid == request.TicketId && x.worker == request.AssigneName);
+                if (ticketAssign == null)
+                {
+                    throw new Exception("Ticket assignment not found for the given ID and username.");
+                }
+                Timelog timelog = new Timelog
+                {
+                    ticketassignid = ticketAssign.id,
+                    totalhoursspent = request.TimeSpent,
+                    description = request.Description,
+                    creationdate = DateTime.UtcNow
+                };
+                context.timelog.Add(timelog);
+                context.SaveChanges();
+            }
         }
     }
 }
