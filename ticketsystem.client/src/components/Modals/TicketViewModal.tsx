@@ -107,6 +107,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         const formData = new FormData(form)
         const data = {
             ...Object.fromEntries(formData.entries()),
+            Id: ticket.id,
             Usernames: selectedUsernames,
             PriorityId: priority?.id ?? priorities.find((priority) => priority.prioritylabel === ticket.priorityname)?.id,
             StageId: stage?.id ?? stages.find((stage) => stage.stagelabel === ticket.stagename)?.id,

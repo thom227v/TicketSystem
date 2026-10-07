@@ -85,7 +85,8 @@ namespace TicketSystem.Server.Context
                 context.ticket.Add(new Ticket { title = request.Title, description = request.Description, submittedby = request.SubmittedBy, priorityid = request.PriorityId, categoryid = request.CategoryId, stageid = 1 });
                 context.SaveChanges();
             }
-            CreateAffectedUser(request);
+            if (request.Usernames.Count > 0)
+                CreateAffectedUser(request);
         }
 
         public List<Ticket> GetAllTickets()
@@ -141,7 +142,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                bool ticketId = int.TryParse(context.ticket.FirstOrDefault(t => t.title == request.Title && t.description == request.Description)?.id.ToString(), out int parsedId);
+                bool ticketId = int.TryParse(context.ticket.FirstOrDefault(t => t.id == request.id)?.id.ToString(), out int parsedId);
 
                 if (!ticketId)
                 {
@@ -181,7 +182,7 @@ namespace TicketSystem.Server.Context
         {
             using (TicketDbContext context = new TicketDbContext(_config))
             {
-                Ticket ticket = context.ticket.FirstOrDefault(t => t.title == request.Title && t.description == request.Description);
+                Ticket ticket = context.ticket.FirstOrDefault(t => t.id == request.id);
                 if (ticket == null)
                 {
                     throw new Exception("Ticket not found for update.");
