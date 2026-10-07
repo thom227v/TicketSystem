@@ -28,10 +28,6 @@ namespace TicketSystem.Server
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
 
-            //builder.Services.AddDeveloperExceptionPage();
-            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
-
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
                 // Password settings.
@@ -62,8 +58,6 @@ namespace TicketSystem.Server
                 options.Cookie.HttpOnly = true;
                 options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
