@@ -8,7 +8,7 @@ namespace TicketSystem.Server
 {
     public class Program
     {
-        public async static Task Main(string[] args)
+        public static void Main(string[] args)
         {
             var builder = WebApplication.CreateBuilder(args);
 
@@ -91,12 +91,12 @@ namespace TicketSystem.Server
             {
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<UserDbContext>();
-                await context.Database.MigrateAsync();
+                context.Database.Migrate();
                 var roleService = services.GetRequiredService<RoleService>();
-                await roleService.SyncRoles();
+                roleService.SyncRoles().GetAwaiter().GetResult();
             }
 
-            await app.RunAsync();
+            app.Run();
         }
     }
 }
