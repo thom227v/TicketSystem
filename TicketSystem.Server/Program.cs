@@ -94,6 +94,14 @@ namespace TicketSystem.Server
                 context.Database.Migrate();
                 var roleService = services.GetRequiredService<RoleService>();
                 roleService.SyncRoles().GetAwaiter().GetResult();
+
+                // Not best practice but good enough for making a support user
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                ApplicationUser? user = userManager.FindByNameAsync("Emil1").GetAwaiter().GetResult();
+                if (user != null && !userManager.IsInRoleAsync(user, "Support").GetAwaiter().GetResult())
+                {
+                    userManager.AddToRoleAsync(user, "Support").GetAwaiter().GetResult();
+                }
             }
 
             app.Run();
