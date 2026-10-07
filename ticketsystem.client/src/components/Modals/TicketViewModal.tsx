@@ -176,7 +176,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
           <Modal.Title>View Ticket {ticket.id}</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-        <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
+        <form className="w-100 mx-auto d-flex flex-column form-group gap-2" id="ticketForm" onSubmit={handleTicketSubmit}>
                 <h2>Edit Ticket</h2>
                 <div>
                     <label>Title</label>
@@ -247,8 +247,11 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                     {username.length > 0 && userResponse.length > 0 && !selectedUsernames.includes(userResponse) &&
                         <button onClick={handleChooseUsername} type="button">{userResponse}</button>}
                 </div>
-                <button className="mt-1 btn btn-primary" type="submit">Update ticket</button>
            </form>
+           <div className="d-flex gap-2 mt-3">
+                <button className="btn btn-info">Log time</button>
+                <button className="btn btn-info">Assign users</button>
+           </div>
             <div>
                 <h2>Time log</h2>
                 <table className="mt-4 w-25 mx-auto table table-light table-striped" aria-labelledby="tableLabel">
@@ -318,6 +321,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
 
         <Modal.Footer>
           <Button variant="secondary" onClick={onHide}>Close</Button>
+          <button className="mt-1 btn btn-success" form="ticketForm" type="submit">Save changes</button>
         </Modal.Footer>
       </Modal>
     </div>
