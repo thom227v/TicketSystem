@@ -57,7 +57,26 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
     const [stage, setStage] = useState<Stage | undefined>();
     const [priority, setPriority] = useState<Priority | undefined>();
     const [category, setCategory] = useState<Category | undefined>();
-    
+       const [showLogTime, setShowLogTime] = useState<boolean>(false);
+    const [showAssignUsers, setShowAssignUsers] = useState<boolean>(false);
+
+     const handleShowLogTime = () => {
+        if (showLogTime == true){
+            setShowLogTime(false);
+        }else{
+            setShowAssignUsers(false)
+            setShowLogTime(true);
+        }
+     } 
+
+     const handleShowAssignUsers = () => {
+        if (showAssignUsers == true){
+            setShowAssignUsers(false);
+        }else{
+            setShowLogTime(false);
+            setShowAssignUsers(true);
+        }
+     } 
     useEffect(() => {
         const currentStage = stages.find(
             (availableStage) => availableStage.stagelabel === ticket.stagename
