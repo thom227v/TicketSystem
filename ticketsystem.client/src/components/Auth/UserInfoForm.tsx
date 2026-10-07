@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { useNavigate, useLocation } from 'react-router';
+import { useNavigate, useLocation, NavLink } from 'react-router';
 interface UserInfo {
   userName: string;
 }
@@ -35,13 +35,13 @@ function UserInfoForm() {
     <>
         {
             userInfo !== undefined && userInfo?.userName !== undefined ?
-                <div className="nav-item flex-grow-1 d-flex justify-content-end">
-                    <div className="nav-item border border-secondary rounded p-2 d-flex justify-content-center align-items-center">
+                <div className="nav-item">
+                    <div className="nav-item border border-secondary rounded p-1">
                          <p className="m-0">Logged in as: {userInfo?.userName}</p>
                     </div>
                 </div>
             :
-            <></>
+                <NavLink className="nav-item btn" to="/Login">Login</NavLink>
         }
         
     </>
