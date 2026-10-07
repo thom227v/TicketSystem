@@ -7,7 +7,7 @@ using TicketSystem.Server.Services;
 
 namespace TicketSystem.Server.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = "Support")]
     [Route("[controller]")]
     [ApiController]
     public class ServiceAgreementController : ControllerBase

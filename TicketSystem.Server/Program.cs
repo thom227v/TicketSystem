@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using TicketSystem.Server.Context;
-
 using TicketSystem.Server.Context;
 using TicketSystem.Server.Models.Auth;
 using TicketSystem.Server.Services;
@@ -21,6 +18,7 @@ namespace TicketSystem.Server
             builder.Services.AddScoped<AssignedTicketService>();
             builder.Services.AddScoped<TicketDbContext>();
             builder.Services.AddScoped<TimelogSerivce>();
+            builder.Services.AddScoped<RoleService>();
 
             builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseNpgsql(
@@ -31,10 +29,6 @@ namespace TicketSystem.Server
             builder.Services.AddControllers();
             // Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
             builder.Services.AddOpenApi();
-
-            //builder.Services.AddDeveloperExceptionPage();
-            //builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
-            //    .AddEntityFrameworkStores<ApplicationDbContext>();
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
             {
@@ -64,10 +58,8 @@ namespace TicketSystem.Server
             {
                 // Cookie settings
                 options.Cookie.HttpOnly = true;
-                options.ExpireTimeSpan = TimeSpan.FromMinutes(5);
+                options.ExpireTimeSpan = TimeSpan.FromMinutes(20);
 
-                options.LoginPath = "/Identity/Account/Login";
-                options.AccessDeniedPath = "/Identity/Account/AccessDenied";
                 options.SlidingExpiration = true;
             });
 
@@ -96,6 +88,16 @@ namespace TicketSystem.Server
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<UserDbContext>();
                 context.Database.Migrate();
+                var roleService = services.GetRequiredService<RoleService>();
+                roleService.SyncRoles().GetAwaiter().GetResult();
+
+                // Not best practice but good enough for making a support user
+                var userManager = services.GetRequiredService<UserManager<ApplicationUser>>();
+                ApplicationUser? user = userManager.FindByNameAsync("Emil1").GetAwaiter().GetResult();
+                if (user != null && !userManager.IsInRoleAsync(user, "Support").GetAwaiter().GetResult())
+                {
+                    userManager.AddToRoleAsync(user, "Support").GetAwaiter().GetResult();
+                }
             }
 
             app.Run();
