@@ -1,8 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using TicketSystem.Server.Context;
-
 using TicketSystem.Server.Context;
 using TicketSystem.Server.Models.Auth;
 using TicketSystem.Server.Services;
@@ -19,6 +16,7 @@ namespace TicketSystem.Server
             builder.Services.AddScoped<TicketService>();
             builder.Services.AddScoped<ServiceAgreementService>();
             builder.Services.AddScoped<TicketDbContext>();
+            builder.Services.AddScoped<RoleService>();
 
             builder.Services.AddDbContext<UserDbContext>(options =>
             options.UseNpgsql(
@@ -94,6 +92,8 @@ namespace TicketSystem.Server
                 var services = scope.ServiceProvider;
                 var context = services.GetRequiredService<UserDbContext>();
                 context.Database.Migrate();
+                var roleService = services.GetRequiredService<RoleService>();
+                roleService.SyncRoles().GetAwaiter().GetResult();
             }
 
             app.Run();
