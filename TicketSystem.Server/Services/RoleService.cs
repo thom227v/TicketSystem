@@ -5,6 +5,7 @@ namespace TicketSystem.Server.Services
     public class RoleService
     {
         // USE [Authorize(Roles = "Support")] in controllers
+        // OR [Authorize(Roles = "Support, User")]
         private readonly RoleManager<IdentityRole> _roleManager;
         public RoleService(RoleManager<IdentityRole> roleManager)
         {
