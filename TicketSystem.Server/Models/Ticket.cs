@@ -10,7 +10,8 @@ namespace TicketSystem.Server.Models
         public required string title { get; set; }
         [MaxLength(1000)]
         public required string description { get; set; }
-        public int priority { get; set; }
-        public int category { get; set; }
+        public int priorityid { get; set; }
+        public int categoryid { get; set; }
+        public int stageid { get; set; }
     }
 }
