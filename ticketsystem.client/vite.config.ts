@@ -66,6 +66,14 @@ export default defineConfig({
             '^/user': {
                 target,
                 secure: false
+            },
+            '^/assignedticket': {
+                target,
+                secure: false
+            },
+            '^/timelog': {
+                target,
+                secure: false
             }
         },
         port: parseInt(env.DEV_SERVER_PORT || '51193'),
