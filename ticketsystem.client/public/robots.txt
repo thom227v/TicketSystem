@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /static/
+Allow: /public/
+Allow: /static/js/
+Allow: /static/css/
+
+Disallow: /Department/
+Disallow: /ServiceAgreement/
+Disallow: /Ticket/
