@@ -54,12 +54,12 @@ function SignUpForm() {
   return (
     <form className="w-25 mx-auto d-flex flex-column gap-2" onSubmit={handleSubmit}>
         <div className="form-group">
-          <label>Username</label>
-          <input className="form-control"  name="UserName" type="text" required/>
+          <label htmlFor="username">Username</label>
+          <input id="username" className="form-control"  name="UserName" type="text" required/>
         </div>
         <div className="form-group">
-          <label>Username</label>
-          <input className="form-control" name="Password" type="password" required/>
+          <label htmlFor="password">Username</label>
+          <input id="password" className="form-control" name="Password" type="password" required/>
         </div>
         <Dropdown
             name="DepartmentId"

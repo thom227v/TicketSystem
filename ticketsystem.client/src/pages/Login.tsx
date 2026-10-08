@@ -14,6 +14,7 @@ export default function HomePage() {
   
   return (
     <main>
+        <meta name="description" content="Sign up and sign in page" />
         {
         logIn === false 
         ? 

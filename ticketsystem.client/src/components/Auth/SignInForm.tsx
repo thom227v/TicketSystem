@@ -22,12 +22,12 @@ function SignInForm() {
   return (
 <form className="w-25 mx-auto d-flex flex-column" onSubmit={handleSubmit}>
         <div className="form-group">
-            <label >Username</label>
-            <input className="form-control"  name="UserName" type="text" required/>
+            <label htmlFor="username">Username</label>
+            <input id="username" className="form-control"  name="UserName" type="text" a="Username field" required/>
         </div>
         <div className="form-group">
-             <label>Password</label>
-             <input className="form-control" name="Password" type="password" required/>
+             <label htmlFor="password">Password</label>
+             <input id="password" className="form-control" name="Password" type="password" aria-label="Password field" required/>
         </div>
         <button className="w-100 align-self-center mt-2 btn btn-primary" type="submit">Sign in</button>
     </form>
