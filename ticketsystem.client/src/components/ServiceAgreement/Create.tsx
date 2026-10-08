@@ -18,8 +18,11 @@ function Create() {
         event.preventDefault();
         const form = event.currentTarget
         const formData = new FormData(form)
-        const data = Object.fromEntries(formData.entries());   
-        data.department = currentDepartment;
+        const data = {
+            Title: formData.get("Title"),
+            Description: formData.get("Description"),
+            department: currentDepartment
+        }; 
 
             const response = await fetch('/serviceagreement/CreateServiceAgreement', {
             method: 'POST',
@@ -73,7 +76,7 @@ function Create() {
                     }
                     }}      
                     placeholder="Select a department"
-                    />
+                />
                 <button className="mt-1 btn btn-primary" type="submit">Submit</button>
             </form>
         </>

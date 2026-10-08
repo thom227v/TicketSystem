@@ -23,11 +23,11 @@ function SignInForm() {
 <form className="w-25 mx-auto d-flex flex-column" onSubmit={handleSubmit}>
         <div className="form-group">
             <label htmlFor="username">Username</label>
-            <input id="username" className="form-control"  name="UserName" type="text" a="Username field" required/>
+            <input id="username" className="form-control"  name="UserName" type="text" required/>
         </div>
         <div className="form-group">
              <label htmlFor="password">Password</label>
-             <input id="password" className="form-control" name="Password" type="password" aria-label="Password field" required/>
+             <input id="password" className="form-control" name="Password" type="password" required/>
         </div>
         <button className="w-100 align-self-center mt-2 btn btn-primary" type="submit">Sign in</button>
     </form>
