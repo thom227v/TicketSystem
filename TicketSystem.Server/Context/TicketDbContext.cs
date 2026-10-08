@@ -208,7 +208,7 @@ namespace TicketSystem.Server.Context
                     .Select(x => new AssginesResponse
                     {
                         Id = x.id,
-                        Name = x.worker
+                        Username = x.worker
                     })
                     .ToList();
                 return assignes;

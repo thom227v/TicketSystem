@@ -49,6 +49,7 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
     const [username, setUsername] = useState<string>("");
     const [userResponse, setUserResponse] = useState<string>("");
     const [selectedUsernames, setSelectedUsernames] = useState<string[]>(ticket.affectedusers);
+    const [assignes, setAssignes] = useState<Supporter[]>([]);
     const [supporters, setSupporters] = useState<Supporter[]>([]);
     const [timelogs, setTimelogs] = useState<Timelog[]>([]);
     const [stages, setStages] = useState<Stage[]>([]);
@@ -175,6 +176,13 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         setSelectedUsernames((current) => current.filter((name) => name !== usernameToRemove));
     };
 
+    async function GetAssignes() {
+        const response = await fetch(`/assignedticket/GetAssignesByTicketId/${encodeURIComponent(ticket.id)}`);
+        if (response.ok) {
+            const data = await response.json();
+            setAssignes(data);
+        }};
+
     async function GetAllSupports() {
         const response = await fetch(`/user/GetAllSupportUsers`);
         if (response.ok) {
@@ -253,12 +261,13 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
         }
     };   
 
-      useEffect(() => {
+      useEffect(() => {       
         GetAllSupports();
         GetAllTimelogs();
         GetAllStages();
         GetAllPriorities();
         GetAllCategories();
+        GetAssignes();
       }, []);
 
     useEffect(() => {
@@ -474,9 +483,9 @@ function TicketViewModal({ ticket, show, onHide }: { ticket: Ticket; show: boole
                                 </tr>
                             </thead>
                             <tbody>
-                                {supporters.map(support =>
-                                    <tr key={support.id}>
-                                        <td>{support.username}</td>
+                                {assignes.map(assigne =>
+                                    <tr key={assigne.id}>
+                                        <td>{assigne.username}</td>
                                     </tr>
                                 )}
                             </tbody>    
