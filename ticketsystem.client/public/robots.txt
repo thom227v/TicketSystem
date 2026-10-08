@@ -7,3 +7,4 @@ Allow: /static/css/
 Disallow: /Department/
 Disallow: /ServiceAgreement/
 Disallow: /Ticket/
+Disallow: /Home/
