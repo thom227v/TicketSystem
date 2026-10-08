@@ -56,8 +56,8 @@ function Create() {
             <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
                 <h3>Create a support ticket</h3>
                 <p>Please fill out the relevants details so our team can take care of your issue.</p>
-                <input className="form-control" name="Title" placeholder="Enter ticket title" required></input>
-                <input className="form-control" name="Description" placeholder="Enter ticket description" required></input>
+                <input className="form-control" name="Title" placeholder="Enter ticket title" aria-label="Ticket title" required></input>
+                <input className="form-control" name="Description" placeholder="Enter ticket description" aria-label="Ticket description" required></input>
                 <input className="form-control" name="Priority" placeholder="Enter ticket priority" required></input>
                 <input className="form-control" name="Category" placeholder="Enter ticket category" required></input>
                 <input name="AffectedUsername" placeholder="Enter username of affected user" onChange={handleUsernameChange}></input>

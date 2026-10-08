@@ -5,6 +5,7 @@ export default function Ticket() {
 
     return (
         <>
+            <meta name="description" content="Ticket administration" />
             <Create></Create>
             <Table></Table>
         </>

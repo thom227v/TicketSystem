@@ -118,8 +118,8 @@ function Create() {
     return (
         <form className="w-50 mx-auto d-flex flex-column form-group gap-2" onSubmit={handleTicketSubmit}>
             <label>Fill out ticket blanket</label>
-            <input className="form-control" name="Title" placeholder="Enter ticket title" required />
-            <input className="form-control" name="Description" placeholder="Enter ticket description" required />
+            <input className="form-control" name="Title" placeholder="Enter ticket title" aria-label="Ticket title" required />
+            <input className="form-control" name="Description" placeholder="Enter ticket description" aria-label="Ticket description" required />
 
             <Dropdown
                 controlClassName="btn btn-outline-primary dropdown-toggle"
