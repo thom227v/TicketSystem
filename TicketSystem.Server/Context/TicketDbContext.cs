@@ -143,6 +143,9 @@ namespace TicketSystem.Server.Context
             using (TicketDbContext context = new TicketDbContext(_config))
             {
                 bool ticketId = int.TryParse(context.ticket.FirstOrDefault(t => t.id == request.id)?.id.ToString(), out int parsedId);
+                
+                if (!ticketId)
+                    ticketId = int.TryParse(context.ticket.FirstOrDefault(t => t.title == request.Title && t.description == request.Description)?.id.ToString(), out parsedId);
 
                 if (!ticketId)
                 {
